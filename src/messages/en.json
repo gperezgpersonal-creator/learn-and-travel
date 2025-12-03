@@ -1,0 +1,509 @@
+{
+    "Navigation": {
+        "home": "Home",
+        "about": "About Us",
+        "programs": "Programs",
+        "blog": "Blog",
+        "contact": "Contact",
+        "login": "Login",
+        "register": "Register"
+    },
+    "Home": {
+        "heroTitle": "Experiences that transform lives",
+        "heroSubtitle": "At Learn and Travel, we connect students with the global business world. Educational trips that inspire, teach, and open doors to future opportunities.",
+        "heroButton": "View Programs",
+        "whatIsTitle": "Educational Experiences Without Borders",
+        "whatIsText1": "Learn and Travel organizes academic trips for high school and university students to key destinations such as the United States, Canada, England, Spain, and Mexico.",
+        "whatIsText2": "We focus on visits to leading companies, sessions with professionals, collaborative projects, and comprehensive logistics. Our mission is to expand academic knowledge and global vision.",
+        "benefitsTitle": "Why Choose Us",
+        "benefit1": "Personalized programs and experiences",
+        "benefit2": "Global network of over 300 partners",
+        "benefit3": "Extensive experience in group management",
+        "benefit4": "Connections with Fortune 500 companies",
+        "benefit5": "Focus on educational content",
+        "benefit6": "Personalized attention throughout the process",
+        "programTypesTitle": "Our Programs",
+        "programType1Title": "Language Courses",
+        "programType1Desc": "Master a new language in an immersive environment. Our courses combine theoretical classes with real-world practice, allowing you to live the culture and communicate fluently in everyday and professional situations.",
+        "programType2Title": "University Programs",
+        "programType2Desc": "Experience university life at the world's best institutions. Access exclusive lectures, state-of-the-art facilities, and an international network that will boost your academic future.",
+        "programType3Title": "Educational Experiences",
+        "programType3Desc": "Develop leadership, culture, entrepreneurship, and vocational guidance skills. Programs designed to awaken your potential and prepare you for the challenges of the modern world.",
+        "programType4Title": "International Camps",
+        "programType4Desc": "Summer and winter camps for young people seeking adventure and learning. Recreational activities, educational workshops, and the opportunity to make friends from all over the world.",
+        "programType5Title": "Professional Internships",
+        "programType5Desc": "Gain real work experience abroad. Work in leading companies, develop practical skills, and enrich your resume with invaluable international experience.",
+        "programType6Title": "Custom Academic Trips",
+        "programType6Desc": "Custom itineraries for schools and groups. We design every detail of the trip according to your institution's educational objectives, guaranteeing a unique and enriching experience.",
+        "viewMore": "View More",
+        "partnersTitle": "Trusted by",
+        "featuredProgramsTitle": "Featured Programs",
+        "available": "Available",
+        "viewDetails": "View Details",
+        "blogTitle": "Latest from our Blog",
+        "readMore": "Read Article"
+    },
+    "Footer": {
+        "company": "Ariagui Services LLC",
+        "contact": "Contact: contacto@ariagui.com",
+        "miamiAddress": "Miami Office: 848 Brickell Ste 950, Miami, Florida, 33131",
+        "mexicoAddress": "Mexico Office: Newton 186, Polanco, Miguel Hidalgo, CDMX 11560",
+        "privacy": "Privacy Policy",
+        "terms": "Terms and Conditions",
+        "rights": "All rights reserved."
+    },
+    "About": {
+        "heroTitle": "About Us",
+        "heroSubtitle": "Creating educational experiences that expand horizons.",
+        "whoWeAreTitle": "Who We Are",
+        "whoWeAreText": "Learn and Travel is an organization dedicated to creating international educational experiences for high school and university students. We design trips that combine learning, discovery, and personal development, connecting students with companies, professionals, and cultures that broaden their worldview.\n\nWe believe that a well-designed academic trip can change the way a young person understands their future, their opportunities, and their capabilities. That's why we offer programs that unite education, inspiration, and adventure in an authentic and transformative way.",
+        "historyTitle": "Our History",
+        "historyText": "Learn and Travel was born with a simple idea: to take learning beyond the classroom. We started by organizing small groups on educational trips and over time grew to work with students from various states, academic institutions, and student communities seeking high-value formative experiences.\n\nOver the years, we have visited multiple destinations in the United States, Canada, England, Spain, and Mexico, creating real connections with professionals and companies that welcome our students to learn, converse, and discover new possibilities.\n\nToday we remain driven by the same motivation: to offer every student a trip that leaves a mark and opens doors to a broader future.",
+        "philosophyTitle": "Our Philosophy and Purpose",
+        "philosophyIntro": "Every program we design starts from a central idea: education changes when it is lived, felt, and experienced.",
+        "philosophyPoints": {
+            "1": "Learning in real contexts",
+            "2": "Awakening professional curiosity",
+            "3": "Developing practical skills",
+            "4": "Connecting with other people and cultures",
+            "5": "Fostering confidence, autonomy, and global vision"
+        },
+        "philosophyClosing": "Our purpose is to accompany new generations to discover a world full of possibilities and build a professional and personal life with meaning.",
+        "manifestoTitle": "Our Manifesto",
+        "manifestoText": "We believe deeply in young people and the role they will play in the coming years. The world is changing at an unprecedented speed, and new generations need tools, experiences, and vision to face challenges that do not yet exist.\n\nOur programs seek precisely that: to expose students to new cultures, industries, professionals, and ways of working, so they develop critical thinking, adaptability, and a global mindset.\n\nLearn and Travel is a facilitator. We create the environment, the context, and the experience; but it is the students who build the real impact. Our purpose is to open doors for them and accompany them as they discover a wider world full of opportunities.",
+        "teamTitle": "Our Team",
+        "teamMembers": {
+            "1": {
+                "name": "Ana Garcia",
+                "role": "Academic Director",
+                "quote": "Education is the passport to the future."
+            },
+            "2": {
+                "name": "Carlos Mendez",
+                "role": "Logistics Coordinator",
+                "quote": "Every detail counts for an unforgettable experience."
+            },
+            "3": {
+                "name": "Laura Torres",
+                "role": "International Relations",
+                "quote": "Connecting cultures, creating opportunities."
+            }
+        },
+        "methodologyTitle": "How We Work",
+        "methodologySteps": {
+            "1": "We listen to the institution, academic objectives, and group needs.",
+            "2": "We design an educational and logistics program aligned with those objectives.",
+            "3": "We validate content, visits, and activities in advance.",
+            "4": "We prepare students and resolve doubts prior to the trip.",
+            "5": "We accompany the entire program with trained staff.",
+            "6": "We close the trip with feedback and integration of learnings."
+        },
+        "securityTitle": "Security and Trust",
+        "securityText": "Student safety and the peace of mind of families and institutions is our priority. That's why we work only with formal providers, accommodations with high standards, and certified transportation.\nEach group has close accompaniment, clear protocols, and professional management before, during, and after the trip.",
+        "ctaText": "We believe in the power of travel to learn, grow, and discover a wider world. If you share this vision, we would be delighted to accompany you in creating a program that inspires your student community.",
+        "ctaButton": "View Programs"
+    },
+    "Programs": {
+        "title": "Our Programs",
+        "viewDetails": "View Details",
+        "noResults": "No programs found in this category.",
+        "types": {
+            "all": "All",
+            "language": "Language",
+            "university": "University",
+            "educational": "Educational",
+            "camp": "Camps",
+            "internship": "Internships",
+            "custom": "Custom"
+        },
+        "status": {
+            "available": "Available",
+            "coming_soon": "Coming Soon",
+            "private": "Private"
+        }
+    },
+    "ProgramDetail": {
+        "overview": "Program Overview",
+        "ageGroup": "Age Group",
+        "duration": "Duration",
+        "itinerary": "Itinerary",
+        "included": "What's Included",
+        "whatsIncluded": "Included",
+        "whatsNotIncluded": "Not Included",
+        "priceFrom": "Price From",
+        "dates": "Dates",
+        "location": "Location",
+        "bookNow": "Book Now",
+        "requestInfo": "Request Info",
+        "securePayment": "Secure payment via Stripe",
+        "downloads": "Downloads"
+    },
+    "Blog": {
+        "title": "Our Blog",
+        "subtitle": "Insights, tips, and stories from the world of educational travel.",
+        "readMore": "Read Article",
+        "relatedPrograms": "Related Programs",
+        "newsletterTitle": "Stay Updated",
+        "newsletterText": "Subscribe to our newsletter for the latest travel tips and program updates.",
+        "subscribe": "Subscribe"
+    },
+    "Contact": {
+        "title": "Contact Us",
+        "subtitle": "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "interest": "I'm interested in...",
+        "interestPrograms": "Programs",
+        "interestPartnership": "Partnership",
+        "interestGeneral": "General Information",
+        "message": "Message",
+        "submit": "Send Message",
+        "contactInfo": "Contact Information",
+        "emailLabel": "Email",
+        "phoneLabel": "Phone",
+        "addressLabel": "Address",
+        "miamiAddress": "Miami Office: 848 Brickell Ste 950, Miami, Florida, 33131",
+        "mexicoAddress": "Mexico Office: Newton 186, Polanco, Miguel Hidalgo, CDMX 11560"
+    },
+    "Legal": {
+        "privacyTitle": "Privacy Policy",
+        "termsTitle": "Terms and Conditions"
+    },
+    "Cart": {
+        "title": "Your Cart",
+        "summary": "Order Summary",
+        "subtotal": "Subtotal",
+        "fees": "Taxes & Fees",
+        "total": "Total",
+        "checkout": "Proceed to Checkout"
+    },
+    "Checkout": {
+        "title": "Checkout",
+        "studentDetails": "Student Details",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "payment": "Payment Method",
+        "orderSummary": "Order Summary",
+        "total": "Total",
+        "agreeTerms": "I agree to the Terms and Conditions and Privacy Policy.",
+        "payNow": "Pay Now"
+    },
+    "ClientLayout": {
+        "dashboard": "Dashboard",
+        "myTrips": "My Trips",
+        "documents": "Documents",
+        "messages": "Messages",
+        "payments": "Payments",
+        "resources": "Resources",
+        "profile": "Profile",
+        "logout": "Logout"
+    },
+    "ClientDashboard": {
+        "welcome": "Welcome back",
+        "myTrips": "My Trips",
+        "upcoming": "Upcoming",
+        "completed": "Completed",
+        "viewDetails": "View Details",
+        "quickAccess": "Quick Access",
+        "documents": "Documents",
+        "messages": "Messages",
+        "payments": "Payments",
+        "resources": "Resources",
+        "new": "New"
+    },
+    "ClientTrips": {
+        "title": "My Trips",
+        "viewDetails": "View Details",
+        "documents": "Documents",
+        "backToTrips": "Back to My Trips",
+        "tripResources": "Trip Resources",
+        "status": {
+            "upcoming": "Upcoming",
+            "ongoing": "Ongoing",
+            "completed": "Completed"
+        }
+    },
+    "ClientDocuments": {
+        "title": "My Documents",
+        "uploadedOn": "Uploaded on",
+        "pendingUpload": "Pending Upload",
+        "download": "Download",
+        "upload": "Upload"
+    },
+    "ClientMessages": {
+        "title": "Messages",
+        "compose": "Compose Message"
+    },
+    "ClientProfile": {
+        "title": "My Profile",
+        "changePhoto": "Change Photo",
+        "personalInfo": "Personal Information",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "preferences": "Communication Preferences",
+        "emailNotifications": "Receive email notifications",
+        "whatsappNotifications": "Receive WhatsApp notifications",
+        "cancel": "Cancel",
+        "saveChanges": "Save Changes"
+    },
+    "ClientPayments": {
+        "title": "Payments & Statements",
+        "concept": "Concept",
+        "date": "Date",
+        "amount": "Amount",
+        "status": {
+            "paid": "Paid",
+            "pending": "Pending"
+        },
+        "payNow": "Pay Now",
+        "downloadReceipt": "Download Receipt"
+    },
+    "ClientResources": {
+        "title": "Trip Resources",
+        "access": "Access Resource"
+    },
+    "StaffLayout": {
+        "dashboard": "Dashboard",
+        "crm": "CRM",
+        "quoter": "Quoter",
+        "workflow": "Workflow",
+        "cms": "CMS",
+        "finance": "Finance",
+        "logout": "Logout"
+    },
+    "StaffDashboard": {
+        "title": "Staff Dashboard",
+        "activeLeads": "Active Leads",
+        "pendingQuotes": "Pending Quotes",
+        "activeTrips": "Active Trips",
+        "revenue": "Revenue (Month)",
+        "vsLastMonth": "vs last month",
+        "needsAction": "needs action",
+        "studentsTraveling": "students traveling",
+        "recentActivity": "Recent Activity",
+        "quickActions": "Quick Actions",
+        "newLead": "New Lead",
+        "createQuote": "Create Quote",
+        "newPost": "New Post",
+        "recordPayment": "Record Payment"
+    },
+    "StaffCRM": {
+        "title": "CRM - Leads",
+        "addLead": "Add New Lead",
+        "name": "Name",
+        "program": "Program",
+        "status": {
+            "new": "New",
+            "contacted": "Contacted",
+            "qualified": "Qualified",
+            "converted": "Converted"
+        },
+        "date": "Date",
+        "view": "View"
+    },
+    "StaffQuoter": {
+        "title": "Quoter",
+        "createQuote": "Create New Quote",
+        "recentQuotes": "Recent Quotes",
+        "quickQuote": "Quick Calculator",
+        "clientName": "Client Name",
+        "program": "Program",
+        "participants": "Participants",
+        "calculate": "Calculate Estimate",
+        "status": {
+            "draft": "Draft",
+            "sent": "Sent",
+            "approved": "Approved",
+            "rejected": "Rejected"
+        }
+    },
+    "StaffCMS": {
+        "title": "Content Management",
+        "programs": "Programs",
+        "blogPosts": "Blog Posts",
+        "addNew": "Add New"
+    },
+    "StaffFinance": {
+        "title": "Financial Overview",
+        "exportReport": "Export Report",
+        "newTransaction": "New Transaction",
+        "description": "Description",
+        "category": "Category",
+        "date": "Date",
+        "amount": "Amount",
+        "status": {
+            "cleared": "Cleared",
+            "pending": "Pending"
+        }
+    },
+    "StaffWorkflow": {
+        "title": "Approval Workflow",
+        "requestedBy": "Requested by",
+        "status": {
+            "pending": "Pending",
+            "approved": "Approved",
+            "rejected": "Rejected"
+        }
+    },
+    "Login": {
+        "title": "Welcome Back",
+        "subtitle": "Sign in to your account",
+        "studentParent": "Student / Parent",
+        "studentDesc": "Access your trip details, documents, and payments.",
+        "loginAsClient": "Login as Client",
+        "or": "OR",
+        "staffMember": "Staff Member",
+        "staffDesc": "Access the internal management portal.",
+        "loginAsStaff": "Login as Staff",
+        "noAccount": "Don't have an account?",
+        "register": "Register here"
+    },
+    "ProgramsData": {
+        "1": {
+            "title": "Silicon Valley Tech Tour",
+            "summary": "Visit top tech companies like Google, Apple, and Meta. Learn about innovation and entrepreneurship.",
+            "description": "Immerse yourself in the world center of technology and innovation. This program is designed for students passionate about tech, entrepreneurship, and the future.",
+            "itinerary": {
+                "1": {
+                    "title": "Arrival & Welcome",
+                    "description": "Arrive in San Francisco, hotel check-in, and welcome dinner."
+                },
+                "2": {
+                    "title": "Google Campus",
+                    "description": "Exclusive tour of the Googleplex and Q&A with engineers."
+                },
+                "3": {
+                    "title": "Stanford University",
+                    "description": "Workshop on Design Thinking at d.school."
+                },
+                "4": {
+                    "title": "Meta HQ",
+                    "description": "Visit Meta headquarters and learn about the Metaverse."
+                },
+                "5": {
+                    "title": "Startup Pitch",
+                    "description": "Visit a startup accelerator and pitch your own ideas."
+                }
+            },
+            "inclusions": [
+                "Accommodation",
+                "Breakfast & Dinner",
+                "All transportation",
+                "Entrance fees",
+                "Workshops"
+            ],
+            "exclusions": [
+                "International flights",
+                "Lunch",
+                "Personal expenses"
+            ]
+        },
+        "2": {
+            "title": "Oxford Summer Academy",
+            "summary": "Experience life as an Oxford student. Attend lectures, explore historic colleges, and improve your academic skills.",
+            "description": "Live and learn in one of the world's most prestigious university cities. This program offers a unique blend of academic rigor and cultural immersion.",
+            "itinerary": {
+                "1": {
+                    "title": "Arrival in Oxford",
+                    "description": "Check-in to college dorms and orientation."
+                },
+                "2": {
+                    "title": "Academic Lectures",
+                    "description": "Morning lectures by Oxford professors."
+                },
+                "3": {
+                    "title": "Punting on the Cherwell",
+                    "description": "Traditional punting experience and picnic."
+                },
+                "4": {
+                    "title": "London Day Trip",
+                    "description": "Visit museums and historical sites in London."
+                },
+                "5": {
+                    "title": "Debate Workshop",
+                    "description": "Learn the art of debating at the Oxford Union."
+                }
+            },
+            "inclusions": [
+                "Dorm accommodation",
+                "Full board meals",
+                "Tuition & Materials",
+                "Excursions"
+            ],
+            "exclusions": [
+                "Flights",
+                "Visa fees",
+                "Travel insurance"
+            ]
+        },
+        "3": {
+            "title": "Tokyo Cultural Immersion",
+            "summary": "Learn Japanese language and culture in the heart of Tokyo. Traditional arts, modern technology, and homestay.",
+            "description": "Experience the unique blend of tradition and modernity in Tokyo. From ancient temples to neon-lit streets, this program offers a deep dive into Japanese culture.",
+            "inclusions": [
+                "Homestay accommodation",
+                "Language classes",
+                "Cultural activities",
+                "Local transport"
+            ],
+            "exclusions": [
+                "Flights",
+                "Personal shopping",
+                "Travel insurance"
+            ]
+        },
+        "4": {
+            "title": "Startup Internship in Tel Aviv",
+            "summary": "Work with cutting-edge startups in the \"Startup Nation\". Gain hands-on experience in tech and business.",
+            "description": "Tel Aviv is known as the Startup Nation. This internship program places you in the heart of the action, working alongside innovative entrepreneurs.",
+            "inclusions": [
+                "Shared apartment",
+                "Networking events",
+                "Mentorship",
+                "Weekend trips"
+            ],
+            "exclusions": [
+                "Flights",
+                "Daily meals",
+                "Visa fees"
+            ]
+        },
+        "5": {
+            "title": "Leadership Camp in Canada",
+            "summary": "Develop leadership skills through outdoor activities and workshops in the beautiful Canadian wilderness.",
+            "description": "Set in the stunning landscapes of British Columbia, this camp combines outdoor adventure with leadership training to build confidence and teamwork.",
+            "inclusions": [
+                "Cabin accommodation",
+                "All meals",
+                "Outdoor gear",
+                "Leadership workshops"
+            ],
+            "exclusions": [
+                "Flights",
+                "Personal gear",
+                "Travel insurance"
+            ]
+        }
+    },
+    "BlogData": {
+        "1": {
+            "title": "The Transformative Power of Educational Travel: A Journey Beyond Borders",
+            "excerpt": "Explore how stepping out of your comfort zone and immersing yourself in new cultures can shape your future and broaden your perspective.",
+            "content": "\n      <p class=\"lead\">Educational travel is more than just visiting new places; it's about immersing yourself in different cultures, understanding global perspectives, and discovering your own potential. In this article, we explore the profound impact of learning while traveling.</p>\n      \n      <h3>Expanding Horizons</h3>\n      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n      <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque.</p>\n      \n      <h3>Building Global Connections</h3>\n      <p>Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. Fusce convallis, mauris imperdiet gravida bibendum, nisl turpis suscipit mauris, sed placerat ipsum urna sed risus. In convallis tellus a mauris. Curabitur ordi. In hac habitasse platea dictumst.</p>\n      <p>Suspendisse potenti. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna. Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet, lectus arcu pulvinar risus, vitae facilisis libero dolor a purus. Sed vel lacus. Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus.</p>\n      \n      <h3>Conclusion</h3>\n      <p>In conclusion, the journey of educational travel is one of self-discovery and global understanding. Whether it's mastering a new language, understanding a complex historical context, or simply making a friend from a different background, the lessons learned on the road are invaluable. We invite you to join us on this incredible journey and see the world through a new lens.</p>\n    "
+        },
+        "2": {
+            "title": "Why Study Abroad in High School?",
+            "excerpt": "Studying abroad isn't just for university students. Learn why starting early gives you a competitive edge.",
+            "content": "\n      <p>High school is a formative time. It's when you start discovering who you are and what you want to do. Studying abroad during these years can be a transformative experience.</p>\n      <p>It builds independence, resilience, and confidence. You learn to manage your own time, money, and decisions.</p>\n      <p>Moreover, it looks fantastic on university applications. Admissions officers love to see students who are curious, adventurous, and mature enough to handle international travel.</p>\n    "
+        },
+        "3": {
+            "title": "The Future of Tech: Insights from Silicon Valley",
+            "excerpt": "Key takeaways from our recent student tour to the world's innovation capital.",
+            "content": "\n      <p>We just returned from an incredible week in San Francisco with 20 bright students. We visited Google, Apple, and several promising startups.</p>\n      <p>The biggest takeaway? The future is AI, but the human element remains irreplaceable. Tech leaders emphasized the need for empathy and ethical thinking in technology development.</p>\n      <p>Join us next year for another deep dive into the world of technology and innovation.</p>\n    "
+        }
+    }
+}
