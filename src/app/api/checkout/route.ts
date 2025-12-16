@@ -36,7 +36,7 @@ export async function POST(req: Request) {
             payment_method_types: ['card'],
             line_items: lineItems,
             mode: 'payment',
-            success_url: `${process.env.NEXT_PUBLIC_URL}/cart?success=true`,
+            success_url: `${process.env.NEXT_PUBLIC_URL}/cart?success=true&session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${process.env.NEXT_PUBLIC_URL}/cart?canceled=true`,
             customer_email: customerDetails?.studentEmail, // Pre-fill email in Stripe
             metadata: {

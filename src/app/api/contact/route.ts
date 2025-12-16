@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '@/lib/email';
 
 export async function POST(request: Request) {
     try {
@@ -14,19 +14,8 @@ export async function POST(request: Request) {
             );
         }
 
-        // Configure Nodemailer Transporter
-        const transporter = nodemailer.createTransport({
-            service: 'gmail', // Simplest for Gmail, can be configured for other SMTP
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
-        });
-
-        // Email Options
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER, // Send to self
+        await sendEmail({
+            to: process.env.EMAIL_USER!, // Send to self
             replyTo: email,
             subject: `Nuevo mensaje de Contacto: ${name} - ${interest}`,
             text: `
@@ -46,10 +35,7 @@ export async function POST(request: Request) {
                 <p><strong>Mensaje:</strong></p>
                 <p>${message.replace(/\n/g, '<br/>')}</p>
             `,
-        };
-
-        // Send Email
-        await transporter.sendMail(mailOptions);
+        });
 
         return NextResponse.json({ success: true });
     } catch (error: any) {

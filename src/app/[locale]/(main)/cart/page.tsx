@@ -22,9 +22,21 @@ export default function CartPage() {
 
     // Handle success return from Stripe
     useEffect(() => {
-        if (searchParams.get('success')) {
+        const sessionId = searchParams.get('session_id');
+        const success = searchParams.get('success');
+
+        if (success && sessionId) {
+            // Trigger email notification
+            fetch('/api/payment/success', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sessionId }),
+            }).catch(err => console.error('Failed to trigger email notification', err));
+
             clearCart();
-            // Optional: Show success message toast or modal
+        } else if (success) {
+            // Fallback for legacy URL without session_id
+            clearCart();
         }
     }, [searchParams, clearCart]);
 
