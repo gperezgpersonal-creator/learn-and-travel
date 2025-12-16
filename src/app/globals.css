@@ -1,12 +1,13 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @theme {
-  --color-primary: #0F172A;
-  --color-primary-light: #334155;
-  --color-primary-dark: #020617;
-  --color-accent: #D4AF37;
-  --color-accent-light: #FCD34D;
-  --color-background: #FAFAF9;
+  --color-primary: #6d120b;
+  --color-primary-light: #b02a29;
+  --color-primary-dark: #4a0c07;
+  --color-accent: #113047;
+  --color-accent-light: #739ab9;
+  --color-background: #fbf0d8;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;

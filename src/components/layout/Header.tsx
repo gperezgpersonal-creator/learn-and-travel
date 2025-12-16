@@ -4,10 +4,13 @@ import { Link } from '@/navigation';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from '@/components/ui/LanguageSwitcher';
 import { useState } from 'react';
+import { ShoppingBag } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 export default function Header() {
     const t = useTranslations('Navigation');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { toggleCart, cartItems } = useCart();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
@@ -15,17 +18,17 @@ export default function Header() {
     const navLinks = [
         { href: '/', label: 'home' },
         { href: '/about', label: 'about' },
-        { href: '/programs', label: 'programs' },
+        // { href: '/programs', label: 'programs' }, // Hidden for V1
         { href: '/blog', label: 'blog' },
         { href: '/contact', label: 'contact' },
     ];
 
     return (
-        <header className="h-20 bg-white shadow-sm sticky top-0 z-50">
+        <header className="h-24 bg-white shadow-sm sticky top-0 z-50">
             <div className="container-custom h-full flex items-center justify-between">
                 {/* Logo */}
-                <Link href="/" className="text-2xl font-serif font-bold text-primary" onClick={closeMenu}>
-                    Learn and Travel
+                <Link href="/" className="flex items-center" onClick={closeMenu}>
+                    <img src="/logo.png" alt="Learn and Travel" className="h-16 w-auto" />
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -43,14 +46,30 @@ export default function Header() {
 
                 {/* Auth Actions & Lang Switch (Desktop) */}
                 <div className="hidden md:flex items-center gap-4">
+                    <button onClick={toggleCart} className="relative p-2 text-slate-800 hover:text-primary transition-colors">
+                        <ShoppingBag className="w-6 h-6" />
+                        {cartItems.length > 0 && (
+                            <span className="absolute top-0 right-0 bg-accent text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">
+                                {cartItems.length}
+                            </span>
+                        )}
+                    </button>
                     <LanguageSwitcher />
-                    <Link href="/login" className="btn btn-outline py-2 px-4 text-sm">
+                    {/* <Link href="/dashboard/login" className="btn btn-outline py-2 px-4 text-sm">
                         {t('login')}
-                    </Link>
+                    </Link> */}
                 </div>
 
                 {/* Mobile Controls */}
                 <div className="flex items-center gap-4 md:hidden">
+                    <button onClick={toggleCart} className="relative p-2 text-slate-800">
+                        <ShoppingBag className="w-6 h-6" />
+                        {cartItems.length > 0 && (
+                            <span className="absolute top-0 right-0 bg-accent text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">
+                                {cartItems.length}
+                            </span>
+                        )}
+                    </button>
                     <LanguageSwitcher />
                     <button
                         onClick={toggleMenu}
@@ -72,7 +91,7 @@ export default function Header() {
 
             {/* Mobile Menu Overlay */}
             {isMenuOpen && (
-                <div className="absolute top-20 left-0 w-full bg-white shadow-lg border-t border-slate-100 md:hidden flex flex-col p-6 gap-6 animate-in slide-in-from-top-5 duration-200">
+                <div className="absolute top-24 left-0 w-full bg-white shadow-lg border-t border-slate-100 md:hidden flex flex-col p-6 gap-6 animate-in slide-in-from-top-5 duration-200">
                     <nav className="flex flex-col gap-4">
                         {navLinks.map((link) => (
                             <Link
@@ -85,15 +104,15 @@ export default function Header() {
                             </Link>
                         ))}
                     </nav>
-                    <div className="flex flex-col gap-4">
+                    {/* <div className="flex flex-col gap-4">
                         <Link
-                            href="/login"
+                            href="/dashboard/login"
                             onClick={closeMenu}
                             className="btn btn-primary w-full text-center"
                         >
                             {t('login')}
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             )}
         </header>

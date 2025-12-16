@@ -6,7 +6,8 @@
         "blog": "Blog",
         "contact": "Contacto",
         "login": "Iniciar Sesión",
-        "register": "Registrarse"
+        "register": "Registrarse",
+        "intranet": "Intranet"
     },
     "Home": {
         "heroTitle": "Experiencias que transforman vidas",
@@ -16,6 +17,8 @@
         "whatIsText1": "Learn and Travel organiza viajes académicos para estudiantes de preparatoria y universidad a destinos clave como Estados Unidos, Canadá, Inglaterra, España y México.",
         "whatIsText2": "Nos enfocamos en visitas a empresas líderes, sesiones con profesionales, proyectos colaborativos y logística integral. Nuestra misión es ampliar el conocimiento académico y la visión global.",
         "benefitsTitle": "Por qué elegirnos",
+        "collageTitle": "Nuestra Comunidad",
+        "collageSubtitle": "Únete a miles de estudiantes que han transformado sus vidas a través de nuestros programas.",
         "benefit1": "Programas y experiencias personalizadas",
         "benefit2": "Red global de más de 300 aliados",
         "benefit3": "Amplia experiencia en manejo de grupos",
@@ -37,6 +40,7 @@
         "programType6Desc": "Itinerarios a medida para escuelas y grupos. Diseñamos cada detalle del viaje según los objetivos educativos de tu institución, garantizando una experiencia única y enriquecedora.",
         "viewMore": "Ver Más",
         "partnersTitle": "Confían en nosotros",
+        "ourPartnersTitle": "Nuestros Socios",
         "featuredProgramsTitle": "Programas Destacados",
         "available": "Disponible",
         "viewDetails": "Ver Detalles",
@@ -136,7 +140,12 @@
         "bookNow": "Reservar Ahora",
         "requestInfo": "Solicitar Información",
         "securePayment": "Pago seguro vía Stripe",
-        "downloads": "Descargas"
+        "downloads": "Descargas",
+        "featuredProgramsTitle": "Programas Destacados",
+        "available": "Disponible",
+        "viewDetails": "Ver Detalles",
+        "explorePrograms": "Ver Programas",
+        "morePrograms": "Más Programas"
     },
     "Blog": {
         "title": "Nuestro Blog",
@@ -490,20 +499,247 @@
         }
     },
     "BlogData": {
-        "1": {
-            "title": "El Poder Transformador de los Viajes Educativos: Un Viaje Más Allá de las Fronteras",
-            "excerpt": "Explora cómo salir de tu zona de confort y sumergirte en nuevas culturas puede moldear tu futuro y ampliar tu perspectiva.",
-            "content": "\n      <p class=\"lead\">Los viajes educativos son más que solo visitar nuevos lugares; se trata de sumergirse en diferentes culturas, comprender perspectivas globales y descubrir tu propio potencial. En este artículo, exploramos el profundo impacto de aprender mientras viajas.</p>\n      \n      <h3>Expandiendo Horizontes</h3>\n      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n      <p>Curabitur pretium tincidunt lacus. Nulla gravida orci a odio. Nullam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in mauris eu nibh euismod gravida. Duis ac tellus et risus vulputate vehicula. Donec lobortis risus a elit. Etiam tempor. Ut ullamcorper, ligula eu tempor congue, eros est euismod turpis, id tincidunt sapien risus a quam. Maecenas fermentum consequat mi. Donec fermentum. Pellentesque malesuada nulla a mi. Duis sapien sem, aliquet nec, commodo eget, consequat quis, neque.</p>\n      \n      <h3>Construyendo Conexiones Globales</h3>\n      <p>Aliquam faucibus, elit ut dictum aliquet, felis nisl adipiscing sapien, sed malesuada diam lacus eget erat. Cras mollis scelerisque nunc. Nullam arcu. Aliquam consequat. Curabitur augue lorem, dapibus quis, laoreet et, pretium ac, nisi. Aenean magna nisl, mollis quis, molestie eu, feugiat in, orci. In hac habitasse platea dictumst. Fusce convallis, mauris imperdiet gravida bibendum, nisl turpis suscipit mauris, sed placerat ipsum urna sed risus. In convallis tellus a mauris. Curabitur ordi. In hac habitasse platea dictumst.</p>\n      <p>Suspendisse potenti. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna. Morbi interdum mollis sapien. Sed ac risus. Phasellus lacinia, magna a ullamcorper laoreet, lectus arcu pulvinar risus, vitae facilisis libero dolor a purus. Sed vel lacus. Mauris nibh felis, adipiscing varius, adipiscing in, lacinia vel, tellus.</p>\n      \n      <h3>Conclusión</h3>\n      <p>En conclusión, el viaje educativo es uno de autodescubrimiento y comprensión global. Ya sea dominando un nuevo idioma, comprendiendo un contexto histórico complejo o simplemente haciendo un amigo de un entorno diferente, las lecciones aprendidas en el camino son invaluables. Te invitamos a unirte a nosotros en este viaje increíble y ver el mundo a través de una nueva lente.</p>\n    "
+        "packing-guide": {
+            "title": "La Maleta Perfecta: Cómo empacar para visitar Google en la mañana y turistear en la tarde",
+            "date": "15 Dic, 2025",
+            "excerpt": "¿Visitas Google por la mañana y turisteas por la tarde? Descubre cómo empacar estilo 'Business Casual' cómodo y profesional para tu viaje académico internacional.",
+            "content": "<p>Imagina este escenario: Son las 9:00 AM y estás entrando a las oficinas centrales de Google en Silicon Valley o al lobby de J.P. Morgan en Nueva York. Necesitas proyectar profesionalismo, seguridad y que perteneces a ese lugar.</p><p>Pero… a las 2:00 PM, tu grupo va a cruzar el Golden Gate caminando o a recorrer Times Square.</p><p>Aquí surge el dilema eterno del viajero académico: <strong>¿Me llevo el traje formal (y sufro caminando) o me voy en pants (y me veo mal en la empresa)?</strong></p><p>La respuesta es el equilibrio. En <strong>Learn and Travel</strong>, sabemos que tu maleta es tu herramienta de supervivencia. Por eso, hemos creado la guía definitiva del estilo <strong>\"Smart Casual Académico\"</strong>.</p><h3>1. La Regla de Oro: Versatilidad ante todo</h3><p>Olvídate de empacar un outfit para la mañana y otro para la tarde. No tendrás tiempo (ni ganas) de regresar al hotel a cambiarte. Tu ropa debe ser un camaleón.</p><p>El secreto es elegir prendas <strong>híbridas</strong>: ropa que se vea bien en una sala de juntas, pero que sea lo suficientemente cómoda para caminar 15,000 pasos diarios.</p><h3>2. El \"Business Casual\" explicado para Gen Z</h3><p>No necesitas parecer un señor de 50 años para verte profesional. El <em>Business Casual</em> moderno, especialmente en ciudades tech como San Francisco o creativas como Londres, es mucho más relajado.</p><h4>¿Qué SÍ llevar?</h4><ul><li><strong>Pantalones Chinos (Khakis/Navy):</strong> Son tus mejores amigos. Son más cómodos que la mezclilla rígida y se ven 10 veces más profesionales.</li><li><strong>Jeans Oscuros (Sin roturas):</strong> Unos jeans negros o azul índigo, sin deslavados ni agujeros, pasan perfectamente como pantalón de vestir si los combinas bien.</li><li><strong>Polos y Camisas de Botones \"Soft\":</strong> Busca telas que no se arruguen fácil (como mezclas de algodón).</li><li><strong>Blazers Desestructurados:</strong> Un saco ligero de tela suave puede transformar una playera blanca básica en un outfit de negocios en 2 segundos.</li></ul><h4>¿Qué dejar en casa?</h4><ul><li><strong>Ropa deportiva evidente:</strong> Pants, leggings de gimnasio o jerseys de fútbol. (Déjalos para el avión o para dormir).</li><li><strong>Sandalias:</strong> Nunca en una visita corporativa. Jamás.</li></ul><h3>3. Zapatos: Donde se gana o se pierde la batalla</h3><p>Vas a caminar. Mucho. Unas botas rígidas o tacones altos arruinarán tu viaje el día uno.</p><p><strong>El Hack: Sneaker Culture es aceptada (con condiciones).</strong><br/>En empresas como Google, Tesla o Meta, verás a los ingenieros en tenis. Puedes llevar tenis <strong>SIEMPRE Y CUANDO</strong>:</p><ol><li>Estén impecablemente limpios.</li><li>Sean minimalistas (blancos, negros, gris).</li><li>No sean tus tenis de correr todos rotos.</li></ol><blockquote><em>Tip Pro: Un par de tenis blancos de piel o unos botines cómodos son el punto medio perfecto.</em></blockquote><h3>4. La Estrategia de la \"Cebolla\" (Capas)</h3><p>El clima en destinos como San Francisco, Londres o Nueva York es traicionero. Puede hacer frío en la calle, calor en el metro y aire acondicionado congelante en la oficina.</p><p><strong>Tu fórmula ganadora:</strong></p><ol><li><strong>Capa Base:</strong> Playera de algodón de buena calidad.</li><li><strong>Capa Media:</strong> Suéter ligero o cárdigan (fácil de quitar y guardar en la mochila).</li><li><strong>Capa Externa:</strong> Chamarra impermeable o abrigo (dependiendo la estación).</li></ol><h3>5. El \"Tech-Kit\" en tu mochila</h3><p>Tu maleta de mano o mochila de día es tan importante como tu ropa. Para un día de <em>Learn and Travel</em>, asegúrate de llevar:</p><ul><li><strong>Power Bank:</strong> Indispensable. Tomarás muchas fotos y usarás mapas.</li><li><strong>Libreta pequeña y pluma:</strong> Anotar consejos de los directivos en una libreta física proyecta mucho más interés y respeto que escribir en tu celular.</li><li><strong>Botella de agua reutilizable:</strong> Mantente hidratado y ahorra dinero.</li></ul><h3>Resumen: Tu Checklist de Empaque (Para 1 semana)</h3><p>Guarda esta lista para cuando estés haciendo tu maleta:</p><ul><li>2 Pantalones Chinos (Beige / Azul Marino)</li><li>1 Jeans oscuros impecables</li><li>3 Playeras básicas de alta calidad (Blanco/Negro)</li><li>2 Camisas casuales o Blusas lindas</li><li>1 Blazer o Chamarra ligera con estilo</li><li>1 Par de tenis urbanos cómodos (¡Limpios!)</li><li>1 Par de zapatos un poco más formales (opcional)</li></ul>"
         },
-        "2": {
-            "title": "¿Por qué Estudiar en el Extranjero en la Preparatoria?",
-            "excerpt": "Estudiar en el extranjero no es solo para universitarios. Aprende por qué empezar temprano te da una ventaja competitiva.",
-            "content": "\n      <p>La preparatoria es una etapa formativa. Es cuando empiezas a descubrir quién eres y qué quieres hacer. Estudiar en el extranjero durante estos años puede ser una experiencia transformadora.</p>\n      <p>Construye independencia, resiliencia y confianza. Aprendes a administrar tu propio tiempo, dinero y decisiones.</p>\n      <p>Además, se ve fantástico en las solicitudes universitarias. A los oficiales de admisión les encanta ver estudiantes curiosos, aventureros y lo suficientemente maduros para manejar viajes internacionales.</p>\n    "
+        "guia-linkedin-viaje-academico": {
+            "title": "Tu viaje no termina al volver: Cómo presumir tu experiencia internacional en LinkedIn para que te contraten",
+            "date": "16 Dic, 2025",
+            "excerpt": "¿Viajaste con Learn and Travel? No dejes que esa experiencia se quede solo en Instagram. Aprende paso a paso cómo agregar tu viaje académico a LinkedIn para atraer reclutadores.",
+            "content": "<p class=\"lead\">Acabas de regresar de tu viaje con <strong>Learn and Travel</strong>. Tienes cientos de fotos en tu celular frente al Golden Gate, en las oficinas de Google o caminando por Londres. Probablemente ya subiste las mejores a Instagram y TikTok.</p><p>Pero, ¿ya las subiste a la red social que te va a conseguir trabajo?</p><p>Muchos estudiantes cometen el error de pensar que un viaje académico es solo \"turismo\". <strong>Error.</strong> Para un reclutador, un viaje académico demuestra curiosidad, adaptabilidad y visión global.</p><p>Aquí tienes la guía paso a paso (con textos para copiar y pegar) para transformar tu viaje en un imán de oportunidades en LinkedIn.</p><h3>1. No es solo un \"Viaje\", es \"Experiencia Educativa\"</h3><p>El primer lugar donde debes incluir tu programa es en la sección de <strong>Educación</strong> o <strong>Proyectos</strong>, no lo escondas.</p><p><strong>¿Cómo ponerlo?</strong></p><ul><li><strong>Institución:</strong> Learn and Travel (o tu Universidad en colaboración con Learn and Travel).</li><li><strong>Nombre del programa:</strong> \"International Academic Program: Innovation & Tech in Silicon Valley\" (o el destino que hayas visitado).</li><li><strong>Descripción:</strong> Aquí es donde vendes la experiencia.</li></ul><blockquote><strong>Copia y pega este ejemplo (y adáptalo):</strong><br/><em>\"Participé en un programa académico intensivo de 6 días en San Francisco, enfocado en el ecosistema de innovación y tecnología. Durante el programa, visité las sedes de empresas líderes como Google, Tesla y Apple, interactuando con profesionales sobre el futuro de la IA y la cultura corporativa global.\"</em></blockquote><h3>2. El \"Titular\" (Headline) de tu perfil</h3><p>Si eres estudiante, tu titular no debe decir solo \"Estudiante en Universidad X\". Agrega tu visión internacional.</p><ul><li><em>Antes:</em> Estudiante de Finanzas.</li><li><em>Después:</em> Estudiante de Finanzas | Interesado en Mercados Globales | Participante del NY Finance Program 2025.</li></ul><h3>3. Valida tus \"Soft Skills\" (Habilidades Blandas)</h3><p>Las empresas contratan por actitud y entrenan por habilidad. Haber viajado demuestra habilidades que no se aprenden en el salón de clases. Ve a la sección de <strong>Habilidades (Skills)</strong> y agrega:</p><ol><li><strong>Adaptabilidad:</strong> (Te moviste en una ciudad nueva, usaste transporte desconocido).</li><li><strong>Comunicación Intercultural:</strong> (Interactuaste con personas de otro país).</li><li><strong>Networking:</strong> (Hiciste preguntas a directivos y conviviste con otros estudiantes).</li><li><strong>Inglés de Negocios:</strong> (Si el viaje fue en inglés y entendiste las conferencias, ¡cuenta!).</li></ol><h3>4. La publicación perfecta (El Post)</h3><p>No basta con actualizar tu perfil; debes hacer \"ruido\". Escribe una publicación sobre tu viaje. No subas solo la foto de grupo sonriendo; sube la foto y cuenta <strong>qué aprendiste</strong>.</p><p><strong>Estructura de un post ganador:</strong></p><ol><li><strong>El Gancho:</strong> \"Nunca imaginé que aprendería tanto en una semana...\"</li><li><strong>El Insight:</strong> \"Visitar las oficinas de [Empresa] me abrió los ojos sobre cómo funciona realmente la industria de [Tu carrera]...\"</li><li><strong>El Agradecimiento:</strong> Etiqueta a <strong>@Learn and Travel</strong>, a tu universidad y, muy importante, a los ponentes o guías que conociste (si tienes sus perfiles).</li></ol><h3>5. Conecta con quienes conociste (Networking real)</h3><p>¿Recuerdas a ese ingeniero que nos dio la charla en Google? ¿O a la directiva que nos recibió en el banco en NY?</p><p>Búscalos en LinkedIn y envíales una solicitud de conexión <strong>personalizada</strong> (nunca envíes la default).</p><blockquote><strong>Script para conectar:</strong><br/><em>\"Hola [Nombre], soy [Tu Nombre]. Asistí a la visita con Learn and Travel la semana pasada en sus oficinas. Me inspiró mucho lo que mencionaste sobre [Menciona un tema específico]. Me encantaría seguir en contacto. ¡Saludos!\"</em></blockquote><hr/><h3>Tu carrera global empieza hoy</h3><p>Un título universitario lo tiene cualquiera, pero una visión internacional es lo que te separa del resto. En <strong>Learn and Travel</strong>, no solo te llevamos de viaje; te damos las herramientas para construir tu futuro.</p><p>¿Listo para sumar la siguiente gran experiencia a tu CV?</p><p><a href=\"/contact\"><strong>Contáctanos aquí</strong></a></p>"
         },
-        "3": {
-            "title": "El Futuro de la Tecnología: Perspectivas desde Silicon Valley",
-            "excerpt": "Principales aprendizajes de nuestro reciente tour estudiantil a la capital mundial de la innovación.",
-            "content": "\n      <p>Acabamos de regresar de una semana increíble en San Francisco con 20 estudiantes brillantes. Visitamos Google, Apple y varias startups prometedoras.</p>\n      <p>¿La mayor lección? El futuro es la IA, pero el elemento humano sigue siendo irreemplazable. Los líderes tecnológicos enfatizaron la necesidad de empatía y pensamiento ético en el desarrollo de tecnología.</p>\n      <p>Únete a nosotros el próximo año para otra inmersión profunda en el mundo de la tecnología y la innovación.</p>\n    "
+        "networking-para-introvertidos-estudiantes": {
+            "title": "Networking para Introvertidos: Qué preguntar a un directivo (sin morir de nervios)",
+            "date": "18 Dic, 2025",
+            "excerpt": "¿Te sudan las manos de solo pensar en hablar con un CEO? Descubre cómo hacer networking efectivo en tus viajes académicos incluso si eres tímido. Incluye lista de preguntas listas para usar.",
+            "content": "<p class=\"lead\">Estás en una sala de conferencias increíble en Nueva York. Frente a ti está un directivo de una empresa del Fortune 500. El guía dice: <em>\"¿Alguien tiene alguna pregunta?\"</em>.</p><p>Se hace un silencio incómodo. Tú tienes una duda, pero tu corazón late a mil por hora, te sudan las manos y piensas: <em>\"¿Y si digo una tontería?\", \"¿Y si no me entienden?\"</em>. Al final, no dices nada.</p><p>Si esto te suena familiar, bienvenido al club. El 80% de las personas sienten ansiedad al hablar con figuras de autoridad.</p><p>En <strong>Learn and Travel</strong>, creemos que el networking no es solo para los extrovertidos que hablan fuerte. De hecho, los introvertidos suelen hacer las mejores preguntas porque escuchan mejor.</p><p>Aquí tienes tu <strong>Kit de Supervivencia para Networking</strong>, diseñado para que destaques sin sufrir.</p><h2>1. La Preparación vence al Miedo</h2><p>El miedo suele venir de la incertidumbre. Si improvisas, te pones nervioso. Si llevas un plan, tienes el control.</p><p><strong>El Hack:</strong> Antes de la visita, investiga 5 minutos sobre la empresa en Google News. No necesitas saberlo todo, solo necesitas un dato curioso para sentirte seguro. Escribe 2 preguntas en tu libreta <em>antes</em> de llegar. Leer tu pregunta es totalmente válido y demuestra preparación.</p><h2>2. El \"Acordeón\" de Preguntas Inteligentes (Copia y Pega)</h2><p>No necesitas inventar el hilo negro. Aquí tienes 3 preguntas infalibles que siempre hacen quedar bien a un estudiante y que a los directivos les encanta responder:</p><h3>La Pregunta sobre Futuro (Muestra visión)</h3><blockquote><em>\"He leído mucho sobre Inteligencia Artificial últimamente. ¿Cómo cree que cambiará la industria de [su sector] en los próximos 5 años y qué podemos hacer nosotros para prepararnos?\"</em></blockquote><h3>La Pregunta Personal (Genera empatía)</h3><blockquote><em>\"Si pudiera volver a tener nuestra edad y estuviera en la universidad, ¿qué habilidad aprendería que no se enseña en los libros?\"</em></blockquote><h3>La Pregunta de Cultura (Muestra interés real)</h3><blockquote><em>\"¿Qué es lo que más disfruta de trabajar en esta empresa en comparación con otros lugares donde ha estado?\"</em></blockquote><h2>3. La Técnica del \"Wingman\" (Compañero de Ala)</h2><p>Si levantar la mano solo te aterra, alíate con un amigo.<br>Acuerden la pregunta antes. Uno puede decir: <em>\"Mi compañero y yo estábamos discutiendo sobre...\"</em> y el otro lanza la pregunta. Sentir el apoyo de alguien al lado reduce la ansiedad a la mitad.</p><h2>4. El Networking Silencioso (Post-Charla)</h2><p>A veces, el mejor momento no es durante la conferencia ante 50 personas, sino al final.</p><p>Cuando termine la charla y todos se estén levantando, acércate al ponente (generalmente se quedan unos minutos). Es un ambiente menos intimidante.</p><ul><li>Acércate, da la mano firme (aunque tiembles un poco por dentro) y di: <em>\"Muchas gracias por su tiempo, me gustó mucho lo que dijo sobre X\"</em>.</li><li>Ese pequeño gesto te diferenciará del resto del grupo que salió corriendo a la tienda de regalos.</li></ul><h2>5. Cambia tu Chip Mental</h2><p>Recuerda esto: Los directivos son personas normales. También fueron estudiantes, también tuvieron miedo y, créelo o no, <strong>quieren ayudarte</strong>. Participan en los programas de <strong>Learn and Travel</strong> porque les gusta ver la energía de los jóvenes. No están ahí para juzgarte, están ahí para inspirarte.</p><hr><h3>Practica en el mundo real</h3><p>La única forma de perder el miedo es haciéndolo. En nuestros viajes a Silicon Valley, Nueva York o Europa, tendrás docenas de oportunidades para practicar en un ambiente seguro y guiado.</p><p>¿Te atreves a levantar la mano?</p><p><a href=\"/contact\"><strong>Contáctanos aquí</strong></a></p>"
         }
+    },
+    "ProgramTypes": {
+        "idiomas": {
+            "title": "Cursos de Idiomas en el Extranjero",
+            "description": "Aprender un idioma fuera del país va mucho más allá de tomar clases. En nuestros cursos de idiomas en el extranjero, los estudiantes viven el idioma todos los días: en el salón, en la calle, en el transporte, con sus compañeros y en cada experiencia cultural.",
+            "sections": {
+                "0": {
+                    "title": "Descripción General",
+                    "content": "Diseñamos programas intensivos en destinos como Estados Unidos, Canadá, Inglaterra y España, donde cada día es una oportunidad para practicar, equivocarse, volver a intentar y ganar confianza al comunicarse."
+                },
+                "1": {
+                    "title": "Para quién es",
+                    "content": "Pensado para estudiantes de preparatoria y universidad que desean mejorar su nivel de idioma, prepararse para exámenes oficiales, estudiar más adelante en el extranjero o simplemente ganar seguridad para comunicarse en contextos académicos y profesionales. También es ideal para jóvenes que nunca han viajado solos y buscan una primera experiencia internacional acompañada."
+                },
+                "2": {
+                    "title": "Cómo funciona la experiencia",
+                    "content": "Los alumnos asisten a una escuela de idiomas reconocida, con grupos internacionales, clases por nivel y profesores especializados. Complementamos lo académico con actividades culturales, visitas guiadas, dinámicas en la ciudad y tiempo libre estructurado. Dependiendo del destino y la edad, se puede optar por hospedaje en casa de familia, residencia estudiantil o alojamiento supervisado para grupos."
+                },
+                "3": {
+                    "title": "Qué hace diferente este programa",
+                    "list": [
+                        "No solo es un curso, es una experiencia integral: idioma, cultura y vida diaria.",
+                        "Acompañamiento antes, durante y después del viaje (reuniones previas, materiales, seguimiento).",
+                        "Opciones de carga académica: desde programas estándar hasta intensivos.",
+                        "Posibilidad de agregar módulos temáticos: preparación para exámenes, inglés de negocios, inglés para presentaciones, etc."
+                    ]
+                },
+                "4": {
+                    "title": "Resultados para el estudiante",
+                    "list": [
+                        "Mejora real en comprensión y fluidez oral.",
+                        "Mayor seguridad para hablar con nativos y en contextos formales.",
+                        "Experiencia internacional que fortalece su CV y su perfil académico.",
+                        "Desarrollo de habilidades personales: independencia, adaptación, manejo del tiempo y convivencia multicultural."
+                    ]
+                }
+            }
+        },
+        "universitarios": {
+            "title": "Programas Universitarios",
+            "description": "Nuestros programas universitarios están diseñados para complementar la formación académica con experiencias directas en el mundo profesional. Conectamos a los estudiantes con empresas, profesionistas y organizaciones que les permiten ver cómo se aplican en la vida real los conceptos que aprenden en clase.",
+            "sections": {
+                "0": {
+                    "title": "Descripción General",
+                    "content": "Son programas ideales para carreras de negocios, finanzas, marketing, ingeniería, tecnología, hospitalidad y muchas más."
+                },
+                "1": {
+                    "title": "Para quién es",
+                    "content": "Dirigido a estudiantes universitarios a partir de ciertos semestres (según el programa), coordinadores académicos, directores de carrera y profesores que buscan un componente internacional sólido y bien estructurado para sus alumnos. También es una excelente opción para universidades que desean diferenciarse con experiencias académicas globales."
+                },
+                "2": {
+                    "title": "Cómo funciona la experiencia",
+                    "content": "Cada programa universitario combina visitas a empresas, sesiones con profesionales, clases o workshops diseñados especialmente para el grupo y actividades culturales en el destino. El contenido se adapta al perfil de la carrera y a los objetivos de la institución: puede ser más técnico, orientado a liderazgo, innovación, finanzas, emprendimiento, deporte, etcétera. Trabajamos de la mano con las universidades para alinear los objetivos del viaje con materias específicas, competencias por desarrollar o proyectos finales."
+                },
+                "3": {
+                    "title": "Elementos clave del programa",
+                    "list": [
+                        "Visitas a empresas, instituciones y organizaciones líderes en su sector.",
+                        "Charlas con directivos, especialistas y emprendedores.",
+                        "Clases, talleres o conferencias diseñadas para el grupo.",
+                        "Actividades de networking y espacios para preguntas y respuestas.",
+                        "Momentos de reflexión guiada para conectar lo vivido con la carrera del estudiante."
+                    ]
+                },
+                "4": {
+                    "title": "Resultados para el estudiante",
+                    "list": [
+                        "Mayor claridad sobre posibilidades profesionales y campos de trabajo reales.",
+                        "Desarrollo de competencias como análisis, comunicación, trabajo en equipo y adaptación.",
+                        "Contacto con profesionales y empresas que pueden convertirse en futuros aliados, mentores o empleadores.",
+                        "Un viaje que se integra al plan de estudios y aporta valor académico real, no solo una experiencia turística."
+                    ]
+                }
+            }
+        },
+        "experiencias": {
+            "title": "Experiencias Educativas",
+            "description": "Las experiencias educativas son programas diseñados alrededor de temas específicos como liderazgo, cultura, emprendimiento, orientación vocacional o innovación. Más que un solo viaje, son experiencias estructuradas para que el estudiante se conozca mejor, entienda el entorno en el que vive y descubra nuevas formas de aportar valor al mundo.",
+            "sections": {
+                "0": {
+                    "title": "Para quién es",
+                    "content": "Pensadas tanto para preparatoria como para universidad, estas experiencias son ideales para instituciones que desean reforzar competencias transversales: liderazgo, pensamiento crítico, creatividad, trabajo en equipo y visión global. También funcionan muy bien para grupos de alto rendimiento, alumnos becados, programas de honor o grupos especiales dentro de una institución."
+                },
+                "1": {
+                    "title": "Qué ocurre en una experiencia educativa",
+                    "content": "El contenido de cada viaje se construye alrededor de un tema central. Por ejemplo:<br/><br/><strong>Liderazgo y trabajo en equipo:</strong> talleres, dinámicas, retos grupales, encuentros con líderes de diferentes sectores.<br/><strong>Emprendimiento e innovación:</strong> visitas a startups, incubadoras, hubs de innovación, espacios creativos y sesiones con fundadores.<br/><strong>Cultura y vocación:</strong> actividades que conectan la historia, el arte y la vida cotidiana de la ciudad con reflexiones sobre el proyecto de vida de los estudiantes.<br/><br/>Se combinan visitas, talleres, espacios de conversación y momentos de análisis personal y grupal, guiados por facilitadores."
+                },
+                "2": {
+                    "title": "Elementos clave",
+                    "list": [
+                        "Objetivos claros de aprendizaje desde el inicio.",
+                        "Actividades diseñadas para activar reflexión, no solo para “ver lugares”.",
+                        "Espacios de diálogo donde los estudiantes puedan expresar ideas y dudas.",
+                        "Materiales o guías que les permitan dar seguimiento a lo aprendido al volver."
+                    ]
+                },
+                "3": {
+                    "title": "Resultados para el estudiante",
+                    "list": [
+                        "Una comprensión más profunda de sí mismo y de lo que quiere lograr.",
+                        "Mayor claridad sobre fortalezas, intereses y posibles caminos profesionales.",
+                        "Inspiración a partir de historias reales de personas y organizaciones que están haciendo cosas distintas.",
+                        "Un viaje que deja ideas concretas para tomar decisiones futuras."
+                    ]
+                }
+            }
+        },
+        "campamentos": {
+            "title": "Campamentos Internacionales",
+            "description": "Nuestros campamentos de verano internacionales combinan aprendizaje, aventura y convivencia en un entorno seguro y cuidadosamente diseñado. Son experiencias pensadas para que los jóvenes se diviertan, descubran nuevas culturas, practiquen otro idioma y desarrollen habilidades personales mientras viven unos días fuera de su entorno habitual.",
+            "sections": {
+                "0": {
+                    "title": "Para quién es",
+                    "content": "Dirigidos principalmente a adolescentes y jóvenes en etapa de secundaria y preparatoria que buscan un verano distinto, con actividades significativas más allá de unas simples vacaciones. También son una excelente opción para familias que valoran entornos supervisados, programas estructurados y un acompañamiento cercano."
+                },
+                "1": {
+                    "title": "Cómo se vive un campamento",
+                    "content": "Durante el campamento, los participantes se integran a grupos con jóvenes de otros lugares, participan en dinámicas de equipo, actividades deportivas, proyectos creativos, salidas culturales y momentos de reflexión. Dependiendo del campamento, el enfoque puede incluir idioma, liderazgo, deporte, arte o una mezcla de varios. El día a día está organizado con horarios, actividades guiadas y espacios de convivencia, siempre bajo la supervisión de coordinadores y staff capacitado."
+                },
+                "2": {
+                    "title": "Tipo de actividades",
+                    "list": [
+                        "Actividades al aire libre y deportes.",
+                        "Talleres de creatividad, liderazgo o habilidades sociales.",
+                        "Práctica de idioma de manera natural en juegos y dinámicas.",
+                        "Excursiones a lugares de interés en la zona.",
+                        "Noches temáticas, actividades de integración y cierre del programa."
+                    ]
+                },
+                "3": {
+                    "title": "Qué diferencia a nuestros campamentos",
+                    "list": [
+                        "Programas cuidadosamente diseñados para equilibrar diversión, aprendizaje y seguridad.",
+                        "Comunicación clara con las familias antes y durante el campamento.",
+                        "Selección de sedes y partners con experiencia y buenos estándares de operación."
+                    ]
+                },
+                "4": {
+                    "title": "Resultados para el participante",
+                    "list": [
+                        "Mayor independencia y confianza en sí mismo.",
+                        "Mejora en habilidades sociales: trabajo en equipo, empatía, convivencia con personas de diferentes orígenes.",
+                        "Recuerdos y amistades que suelen durar más allá del campamento.",
+                        "Una experiencia que puede convertirse en el primer paso para otros viajes académicos más largos."
+                    ]
+                }
+            }
+        },
+        "pasantias": {
+            "title": "Pasantías Profesionales",
+            "description": "Las pasantías profesionales en el extranjero (internships) son experiencias de verano en las que el estudiante se integra a un entorno de trabajo real, ya sea en empresas, organizaciones o proyectos específicos. El objetivo es que viva de primera mano cómo se trabaja en su área de interés, desarrolle habilidades prácticas y entienda las exigencias del mundo laboral global.",
+            "sections": {
+                "0": {
+                    "title": "Para quién es",
+                    "content": "Dirigidas principalmente a estudiantes universitarios y, en algunos casos, a alumnos de los últimos años de preparatoria con un alto nivel de idioma y madurez. Es ideal para quienes ya tienen una idea de la carrera que quieren seguir o desean probar un área antes de tomar decisiones definitivas."
+                },
+                "1": {
+                    "title": "Cómo se desarrolla la pasantía",
+                    "content": "El estudiante es asignado a una empresa o institución colaboradora donde apoyará en tareas relacionadas con su campo de estudio: investigación, apoyo en proyectos, análisis de datos, marketing, operaciones, entre otros. La duración puede variar según el programa, pero normalmente se concentra en las vacaciones de verano. Además de las horas de trabajo, el programa puede incluir sesiones de mentoría, visitas a otras organizaciones, actividades culturales y espacios de reflexión sobre lo aprendido."
+                },
+                "2": {
+                    "title": "Acompañamiento y estructura",
+                    "list": [
+                        "Proceso de aplicación y selección guiado.",
+                        "Preparación previa: cultura del país, expectativas laborales, normas básicas de conducta.",
+                        "Seguimiento durante la estancia para resolver dudas y acompañar el proceso.",
+                        "Cierre con retroalimentación de la empresa y del propio estudiante."
+                    ]
+                },
+                "3": {
+                    "title": "Beneficios para el estudiante",
+                    "list": [
+                        "Experiencia laboral internacional real para incluir en su CV.",
+                        "Mejora en habilidades como responsabilidad, comunicación profesional, trabajo bajo objetivos y adaptación a distintos estilos de liderazgo.",
+                        "Oportunidad de construir una red de contactos en su industria de interés.",
+                        "Mayor claridad sobre si esa área profesional es realmente lo que desea para su futuro."
+                    ]
+                },
+                "4": {
+                    "title": "Diferenciador",
+                    "content": "Nuestras pasantías no son solo “estar en una oficina”; buscamos que el estudiante tenga tareas con sentido, un entorno de apoyo y oportunidades para aprender de profesionales que estén dispuestos a compartir su experiencia."
+                }
+            }
+        },
+        "a-medida": {
+            "title": "Viajes Académicos a la Medida",
+            "description": "Diseñamos itinerarios educativos personalizados para instituciones que buscan ofrecer experiencias únicas a sus estudiantes. Nos alineamos con los objetivos académicos de tu escuela para crear un viaje que complemente el plan de estudios.",
+            "sections": {
+                "0": {
+                    "title": "Para quién es",
+                    "content": "Directores académicos, coordinadores de área y profesores que desean organizar un viaje de estudios para su grupo, pero necesitan un socio experto que se encargue de la logística, el contenido y la seguridad."
+                },
+                "1": {
+                    "title": "Cómo trabajamos",
+                    "content": "Nos reunimos contigo para entender tus necesidades: ¿Qué materia quieres reforzar? ¿Qué competencias quieres desarrollar? ¿Cuál es el perfil de tus alumnos? Con base en esto, diseñamos una propuesta integral que incluye vuelos, hospedaje, visitas, talleres y actividades recreativas."
+                },
+                "2": {
+                    "title": "Beneficios para la institución",
+                    "list": [
+                        "Ahorro de tiempo y esfuerzo en la organización.",
+                        "Garantía de calidad y seguridad en todos los servicios.",
+                        "Contenido académico relevante y validado.",
+                        "Diferenciación frente a otras instituciones educativas."
+                    ]
+                },
+                "3": {
+                    "title": "Ejemplos de viajes a la medida",
+                    "list": [
+                        "Ruta histórica por Europa para clases de Historia y Arte.",
+                        "Inmersión tecnológica en Silicon Valley para grupos de Robótica.",
+                        "Viaje de negocios a Nueva York para estudiantes de Finanzas.",
+                        "Voluntariado y ecoturismo en Costa Rica para grupos de Biología."
+                    ]
+                }
+            }
+        }
+    },
+    "Intranet": {
+        "title": "Acceso a Intranet",
+        "tecTitle": "Programas Tec de Monterrey",
+        "tecDesc": "Acceso exclusivo para alumnos del Tec de Monterrey.",
+        "adminTitle": "Administración y Pagos",
+        "adminDesc": "Inicia sesión para ver pagos, documentos y estatus de viaje.",
+        "access": "Acceder"
     }
 }
