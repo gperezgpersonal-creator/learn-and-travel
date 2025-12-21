@@ -1,20 +1,35 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MOCK_PROGRAMS, Program } from '@/services/mock/mockData';
+import { ProgramService } from '@/services/supabase/programService';
 import { Plus, Edit, ArrowLeft, ExternalLink, Trash2 } from 'lucide-react';
 
 type Tab = 'general' | 'finance' | 'itinerary' | 'flights' | 'preview';
 
 export default function CmsPage() {
-    const [programs, setPrograms] = useState<Program[]>(MOCK_PROGRAMS);
+    const [programs, setPrograms] = useState<Program[]>([]);
+    const [loading, setLoading] = useState(true);
     const [view, setView] = useState<'list' | 'edit'>('list');
     const [editingProgram, setEditingProgram] = useState<Program | null>(null);
+    const [originalProgram, setOriginalProgram] = useState<Program | null>(null);
     const [activeTab, setActiveTab] = useState<Tab>('general');
+
+    const loadPrograms = async () => {
+        setLoading(true);
+        const data = await ProgramService.getAllPrograms();
+        setPrograms(data);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        loadPrograms();
+    }, []);
 
     const handleNewProgram = () => {
         const newProgram: Program = {
             id: `prog-${Date.now()}`,
+            internalId: '',
             title: '',
             slug: '',
             destination: '',
@@ -23,31 +38,60 @@ export default function CmsPage() {
             status: 'draft',
             itinerary: [],
             flights: [],
-            inclusions: []
+            inclusions: [],
+            plans: [],
+            image: '' // Default empty image
         };
         setEditingProgram(newProgram);
+        setOriginalProgram(newProgram);
         setView('edit');
         setActiveTab('general');
     };
 
     const handleEditProgram = (program: Program) => {
         setEditingProgram({ ...program }); // Clone to avoid direct mutation
+        setOriginalProgram({ ...program });
         setView('edit');
         setActiveTab('general');
     };
 
-    const handleSave = () => {
+    const [isSaving, setIsSaving] = useState(false);
+
+    // Simple dirty check
+    const isDirty = React.useMemo(() => {
+        if (!editingProgram || !originalProgram) return false;
+        return JSON.stringify(editingProgram) !== JSON.stringify(originalProgram);
+    }, [editingProgram, originalProgram]);
+
+    const handleSave = async () => {
         if (!editingProgram) return;
+        setIsSaving(true);
 
-        const updatedPrograms = programs.some(p => p.id === editingProgram.id)
-            ? programs.map(p => p.id === editingProgram.id ? editingProgram : p)
-            : [...programs, editingProgram];
+        try {
+            // 1. Save to Supabase via Service
+            const success = await ProgramService.saveProgram(editingProgram);
 
-        setPrograms(updatedPrograms);
-        setView('list');
-        setEditingProgram(null);
+            if (!success) {
+                alert("Error guardando en la nube. Revisa consola.");
+                setIsSaving(false);
+                return;
+            }
+
+            // 2. Refresh List (Source of Truth) to ensure we have latest DB state
+            await loadPrograms();
+
+            setOriginalProgram(editingProgram); // Re-baseline
+            alert("¡Guardado exitoso en la Nube!");
+
+        } catch (err) {
+            console.error(err);
+            alert("Error desconocido al guardar.");
+        } finally {
+            setIsSaving(false);
+        }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updateField = (field: keyof Program, value: any) => {
         if (!editingProgram) return;
         setEditingProgram({ ...editingProgram, [field]: value });
@@ -85,12 +129,20 @@ export default function CmsPage() {
             <div className="p-8 max-w-6xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-2xl font-bold text-gray-900">Constructor de Viajes</h1>
-                    <button
-                        onClick={handleNewProgram}
-                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-                    >
-                        <Plus className="w-4 h-4" /> Nuevo Viaje
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => window.location.href = '/dashboard/admin/components'}
+                            className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                        >
+                            🎨 Catálogo de Componentes
+                        </button>
+                        <button
+                            onClick={handleNewProgram}
+                            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                        >
+                            <Plus className="w-4 h-4" /> Nuevo Viaje
+                        </button>
+                    </div>
                 </div>
 
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -173,6 +225,17 @@ export default function CmsPage() {
                     {activeTab === 'general' && editingProgram && (
                         <div className="space-y-6 max-w-2xl">
                             <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">ID Interno (ej. 84-ORL2026)</label>
+                                <input
+                                    type="text"
+                                    value={editingProgram.internalId || ''}
+                                    onChange={(e) => updateField('internalId', e.target.value)}
+                                    placeholder="84-ORL2026"
+                                    className="w-full p-2 border border-blue-200 bg-blue-50 rounded-md focus:ring-2 focus:ring-blue-500 outline-none font-mono text-sm"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">Este ID conecta los "Componentes Inteligentes" con el diseño.</p>
+                            </div>
+                            <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">Título del Programa</label>
                                 <input
                                     type="text"
@@ -214,26 +277,136 @@ export default function CmsPage() {
                     )}
 
                     {activeTab === 'finance' && editingProgram && (
-                        <div className="space-y-6 max-w-xl">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Precio Público</label>
-                                <input
-                                    type="number"
-                                    value={editingProgram.price}
-                                    onChange={(e) => updateField('price', Number(e.target.value))}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
-                                />
+                        <div className="space-y-8 max-w-4xl">
+                            <div className="space-y-6 max-w-xl">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Precio Público</label>
+                                    <input
+                                        type="number"
+                                        value={editingProgram.price}
+                                        onChange={(e) => updateField('price', Number(e.target.value))}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">Moneda</label>
+                                    <select
+                                        value={editingProgram.currency}
+                                        onChange={(e) => updateField('currency', e.target.value)}
+                                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none bg-white"
+                                    >
+                                        <option value="USD">USD - Dólar Americano</option>
+                                        <option value="MXN">MXN - Peso Mexicano</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Moneda</label>
-                                <select
-                                    value={editingProgram.currency}
-                                    onChange={(e) => updateField('currency', e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-                                >
-                                    <option value="USD">USD - Dólar Americano</option>
-                                    <option value="MXN">MXN - Peso Mexicano</option>
-                                </select>
+
+                            {/* Payment Plans Management */}
+                            <div className="border-t pt-8">
+                                <div className="flex justify-between items-center mb-6">
+                                    <div className="flex flex-col">
+                                        <h3 className="text-lg font-medium text-gray-900">Planes de Pago</h3>
+                                        <span className="text-xs text-slate-400">ID: {editingProgram.id}</span>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <button
+                                            onClick={() => {
+                                                const newPlan = { name: 'Nuevo Plan', price: 0, status: 'active' as const };
+                                                setEditingProgram({
+                                                    ...editingProgram,
+                                                    plans: [...(editingProgram.plans || []), newPlan]
+                                                });
+                                            }}
+                                            className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                                        >
+                                            <Plus className="w-4 h-4" /> Agregar Plan
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-4">
+                                    {(!editingProgram.plans || editingProgram.plans.length === 0) && (
+                                        <div className="text-center py-8 text-gray-400 border-2 border-dashed border-gray-200 rounded-lg">
+                                            No hay planes de pago configurados.
+                                        </div>
+                                    )}
+
+                                    {(editingProgram.plans || []).map((plan, index) => (
+                                        <div key={index} className="bg-gray-50 p-4 rounded-lg border border-gray-200 flex items-center justify-between gap-4">
+                                            <div className="flex-grow grid grid-cols-12 gap-4 items-center">
+                                                <div className="col-span-4">
+                                                    <label className="block text-xs font-medium text-gray-500 mb-1">Nombre del Plan</label>
+                                                    <input
+                                                        type="text"
+                                                        value={plan.name}
+                                                        onChange={(e) => {
+                                                            const newPlans = [...editingProgram.plans!];
+                                                            newPlans[index] = { ...plan, name: e.target.value };
+                                                            setEditingProgram({ ...editingProgram, plans: newPlans });
+                                                        }}
+                                                        className="w-full p-2 border border-gray-300 rounded text-sm"
+                                                    />
+                                                </div>
+                                                <div className="col-span-2">
+                                                    <label className="block text-xs font-medium text-gray-500 mb-1">Monto</label>
+                                                    <input
+                                                        type="number"
+                                                        value={plan.price}
+                                                        onChange={(e) => {
+                                                            const newPlans = [...editingProgram.plans!];
+                                                            newPlans[index] = { ...plan, price: Number(e.target.value) };
+                                                            setEditingProgram({ ...editingProgram, plans: newPlans });
+                                                        }}
+                                                        className="w-full p-2 border border-gray-300 rounded text-sm"
+                                                    />
+                                                </div>
+                                                <div className="col-span-3">
+                                                    <label className="block text-xs font-medium text-gray-500 mb-1">Vigencia</label>
+                                                    <input
+                                                        type="date"
+                                                        value={plan.deadline || ''}
+                                                        onChange={(e) => {
+                                                            const newPlans = [...editingProgram.plans!];
+                                                            newPlans[index] = { ...plan, deadline: e.target.value };
+                                                            setEditingProgram({ ...editingProgram, plans: newPlans });
+                                                        }}
+                                                        className="w-full p-2 border border-gray-300 rounded text-sm text-gray-600"
+                                                    />
+                                                </div>
+                                                <div className="col-span-3">
+                                                    <label className="block text-xs font-medium text-gray-500 mb-1">Estatus</label>
+                                                    <select
+                                                        value={plan.status || 'active'}
+                                                        onChange={(e) => {
+                                                            const newPlans = [...editingProgram.plans!];
+                                                            // @ts-ignore
+                                                            newPlans[index] = { ...plan, status: e.target.value };
+                                                            setEditingProgram({ ...editingProgram, plans: newPlans });
+                                                        }}
+                                                        className={`w-full p-2 border rounded text-sm font-medium ${plan.status === 'hidden' ? 'bg-red-50 text-red-700 border-red-200' :
+                                                            plan.status === 'sold_out' ? 'bg-orange-50 text-orange-700 border-orange-200' :
+                                                                'bg-green-50 text-green-700 border-green-200'
+                                                            }`}
+                                                    >
+                                                        <option value="active">Activo (Visible)</option>
+                                                        <option value="hidden">Oculto (Inactivo)</option>
+                                                        <option value="sold_out">Agotado</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                onClick={() => {
+                                                    const newPlans = editingProgram.plans!.filter((_, i) => i !== index);
+                                                    setEditingProgram({ ...editingProgram, plans: newPlans });
+                                                }}
+                                                className="text-gray-400 hover:text-red-500 p-2"
+                                            >
+                                                <Trash2 className="w-4 h-4" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     )}
@@ -550,9 +723,14 @@ export default function CmsPage() {
                     </button>
                     <button
                         onClick={handleSave}
-                        className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-sm shadow-sm"
+                        disabled={isSaving || !isDirty}
+                        className={`px-6 py-2 rounded-lg font-medium text-sm shadow-sm flex items-center gap-2 transition-colors
+                            ${isSaving || !isDirty
+                                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                     >
-                        Guardar Cambios
+                        {isSaving ? <span className="animate-spin">⏳</span> : null}
+                        {isSaving ? 'Guardando...' : (isDirty ? 'Guardar Cambios' : 'Sin cambios')}
                     </button>
                 </div>
             </div>

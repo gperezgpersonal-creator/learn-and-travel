@@ -77,6 +77,7 @@ export default function StudentDashboard() {
                     <span>Profile:</span>
                     <select
                         value={simulatedProfile}
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         onChange={(e) => setSimulatedProfile(e.target.value as any)}
                         className="bg-slate-800 rounded px-2 py-1"
                     >

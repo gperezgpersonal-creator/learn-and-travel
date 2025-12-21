@@ -428,6 +428,13 @@ export interface Contact {
     timeline: Note[];
 }
 
+export interface Plan {
+    name: string;
+    price: number;
+    deadline?: string;
+    status?: 'active' | 'hidden' | 'sold_out';
+}
+
 export interface Program {
     id: string;
     internalId?: string; // New field
@@ -437,9 +444,11 @@ export interface Program {
     price: number;
     currency: 'USD' | 'MXN';
     status: 'draft' | 'published';
+    image: string;
     itinerary: { day: number; title: string; description: string }[];
     flights: Flight[]; // New field
     inclusions: string[]; // Lista de strings
+    plans?: Plan[];
 }
 
 export interface BusinessTransaction {
@@ -571,49 +580,24 @@ export const MOCK_CONTACTS: Contact[] = [
 
 export const MOCK_PROGRAMS: Program[] = [
     {
-        id: 'trip-london',
-        internalId: 'P-2026-001',
-        title: 'Summer in London 2026',
-        slug: 'london-2026',
-        destination: 'London, UK',
-        price: 3500,
+        id: "84-ORL2026",
+        internalId: "84-ORL2026",
+        slug: "orlando-business-2026",
+        title: "The Way to Do Business - Orlando ABRIL 2026",
+        destination: "Orlando, Florida",
+        price: 2950,
         currency: 'USD',
         status: 'published',
-        itinerary: [
-            { day: 1, title: 'Arrival', description: 'Welcome dinner and check-in.' },
-            { day: 2, title: 'City Tour', description: 'Bus tour around main attractions.' }
+        image: '/images/orlando-blueprint.png',
+        plans: [
+            { name: "Apartado (Reserva tu lugar)", price: 50, status: 'active' },
+            { name: "Pago de Contado (Total $2,850)", price: 2850, deadline: "2026-01-20", status: 'active' },
+            { name: "1er Pago (Plan Diferido)", price: 1000, deadline: "2026-01-20", status: 'active' },
+            { name: "2do Pago (Plan Diferido)", price: 1000, deadline: "2026-02-20", status: 'active' },
+            { name: "3er Pago (Plan Diferido)", price: 1000, deadline: "2026-03-20", status: 'active' }
         ],
-        flights: [
-            {
-                id: 'flight-p1',
-                tripId: '', // Template doesn't need tripId
-                airline: 'British Airways',
-                flightNumber: 'BA242',
-                departureTime: '2026-07-15T18:00:00',
-                arrivalTime: '2026-07-16T10:00:00',
-                departureAirport: 'MEX',
-                arrivalAirport: 'LHR',
-                terminal: '5',
-                type: 'outbound',
-                category: 'Economy',
-                seats: 'Block Allocation',
-                cancellationPolicy: 'Non-refundable.',
-                notes: 'Group travel'
-            }
-        ],
-        inclusions: ['Accommodation', 'Meals', 'Course Materials']
-    },
-    {
-        id: 'trip-vancouver',
-        internalId: 'P-2026-002',
-        title: 'Vancouver Adventure 2026',
-        slug: 'vancouver-2026',
-        destination: 'Vancouver, Canada',
-        price: 2800,
-        currency: 'USD',
-        status: 'draft',
         itinerary: [],
         flights: [],
-        inclusions: ['Homestay', 'English Classes']
+        inclusions: []
     }
 ];

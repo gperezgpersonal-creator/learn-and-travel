@@ -35,6 +35,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         if (storedCart) {
             try {
                 const parsedCart = JSON.parse(storedCart);
+                // eslint-disable-next-line react-hooks/exhaustive-deps -- intended for hydration
                 setCartItems(parsedCart);
             } catch (error) {
                 console.error('Failed to parse cart:', error);

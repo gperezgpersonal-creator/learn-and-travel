@@ -1,7 +1,7 @@
 'use client';
 
 import { Link, usePathname, useRouter } from '@/navigation';
-import { Home, FileText, CreditCard, User, Settings, LogOut, Users, Briefcase, Map, BookOpen, MessageSquare, Layout, BarChart, Zap } from 'lucide-react';
+import { Home, FileText, CreditCard, User, Settings, LogOut, Users, Briefcase, Map, BookOpen, MessageSquare, Layout, BarChart, Zap, Link2 as LinkIcon } from 'lucide-react';
 import { authService } from '@/services/mock/authService';
 
 export default function Sidebar() {
@@ -62,33 +62,46 @@ export default function Sidebar() {
                 {/* Admin Links */}
                 {pathname.includes('/admin') && (
                     <>
-                        <Link href="/dashboard/admin" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin') && !isActive('/crm') && !isActive('/finance') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                        {/* <Link href="/dashboard/admin" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/admin') && !isActive('/crm') && !isActive('/finance') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <Home className="w-5 h-5" />
                             Overview
-                        </Link>
+                        </Link> */}
                         <Link href="/dashboard/admin/finance" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/finance') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <CreditCard className="w-5 h-5" />
                             Finance
                         </Link>
-                        <Link href="/dashboard/admin/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/dashboard/admin/dashboard') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                        {/* <Link href="/dashboard/admin/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/dashboard/admin/dashboard') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <BarChart className="w-5 h-5" />
                             Dashboard
                         </Link>
                         <Link href="/dashboard/admin/crm" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/crm') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <Users className="w-5 h-5" />
                             CRM
-                        </Link>
-                        <Link href="/dashboard/admin/cms" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/cms') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
-                            <Layout className="w-5 h-5" />
-                            CMS
-                        </Link>
-                        <Link href="/dashboard/admin/documents" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/documents') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                        </Link> */}
+
+                        {/* <Link href="/dashboard/admin/documents" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/documents') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <FileText className="w-5 h-5" />
                             Validations
                         </Link>
                         <Link href="/dashboard/admin/marketing" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/marketing') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <Zap className="w-5 h-5" />
                             Marketing
+                        </Link> */}
+                        <Link href="/dashboard/admin/forms-directory" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/forms-directory') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                            <LinkIcon className="w-5 h-5" />
+                            Programas y Formularios
+                        </Link>
+                        <Link href="/programs/tec-de-monterrey" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/programs/tec-de-monterrey') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                            <BookOpen className="w-5 h-5" />
+                            Programas Tec de Monterrey
+                        </Link>
+                        <Link href="/dashboard/admin/prospects" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/prospects') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                            <Users className="w-5 h-5" />
+                            Prospectos interesados
+                        </Link>
+                        <Link href="/dashboard/admin/proposals" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/proposals') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                            <FileText className="w-5 h-5" />
+                            Propuestas Cliente
                         </Link>
                     </>
                 )}

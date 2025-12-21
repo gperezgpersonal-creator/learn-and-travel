@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { programs } from '@/lib/programs';
-import { MOCK_PROGRAMS } from '@/services/mock/mockData';
+import { MOCK_PROGRAMS } from '@/services/mock/mockData'; // Keeping for type ref if needed, or removing if unused? Program type comes from mockData so keep imports but remove usage
+import { ProgramService } from '@/services/supabase/programService';
 import { PROGRAM_TYPES } from '@/lib/programTypes';
 import { notFound } from 'next/navigation';
 import { Link } from '@/navigation';
@@ -8,6 +9,7 @@ import FadeIn from '@/components/ui/FadeIn';
 import ProgramInfoCard from '@/components/ui/ProgramInfoCard';
 import Image from 'next/image';
 import ProgramTabs from '@/components/programs/ProgramTabs';
+import PaymentPlanSelector from '@/components/cart/PaymentPlanSelector';
 import { Star, Shield, Globe, Award, ArrowRight, Users, MapPin, Calendar } from 'lucide-react';
 
 export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -261,7 +263,8 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
     }
 
     // 1. Try to find in CMS data first
-    const cmsProgram = MOCK_PROGRAMS.find(p => p.slug === slug);
+    // const cmsProgram = MOCK_PROGRAMS.find(p => p.slug === slug);
+    const cmsProgram = await ProgramService.getProgramBySlug(slug);
 
     // 2. Fallback to static data
     const staticProgram = programs.find(p => p.id === slug);
@@ -337,30 +340,82 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
                                 </section>
                             </FadeIn>
                         )}
+
+                        {/* Flights */}
+                        {cmsProgram.flights && cmsProgram.flights.length > 0 && (
+                            <FadeIn direction="up" delay={0.3}>
+                                <section className="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+                                    <h2 className="text-2xl font-bold mb-8 text-slate-800 border-b border-slate-100 pb-4">Vuelos</h2>
+                                    <div className="space-y-6">
+                                        {cmsProgram.flights.map((flight, i) => (
+                                            <div key={i} className="flex flex-col md:flex-row gap-6 p-6 bg-slate-50 rounded-xl border border-slate-100">
+                                                <div className="flex items-center justify-center bg-white p-4 rounded-lg shadow-sm h-fit">
+                                                    <div className="text-center">
+                                                        <div className="font-bold text-slate-800">{flight.airline}</div>
+                                                        <div className="text-xs text-slate-500">{flight.flightNumber}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex-grow grid grid-cols-2 md:grid-cols-3 gap-6">
+                                                    <div>
+                                                        <div className="text-xs text-slate-400 uppercase font-bold mb-1">Salida</div>
+                                                        <div className="text-2xl font-bold text-slate-800">{flight.departureAirport}</div>
+                                                        <div className="text-sm text-slate-600">{new Date(flight.departureTime).toLocaleDateString()}</div>
+                                                        <div className="text-xs text-slate-500">{new Date(flight.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                                    </div>
+                                                    <div className="flex flex-col justify-center items-center">
+                                                        <div className="w-full h-px bg-slate-300 relative">
+                                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300">✈</div>
+                                                        </div>
+                                                        <div className="text-xs text-slate-400 mt-2 capitalize">{flight.type === 'outbound' ? 'Ida' : 'Regreso'}</div>
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-xs text-slate-400 uppercase font-bold mb-1">Llegada</div>
+                                                        <div className="text-2xl font-bold text-slate-800">{flight.arrivalAirport}</div>
+                                                        <div className="text-sm text-slate-600">{new Date(flight.arrivalTime).toLocaleDateString()}</div>
+                                                        <div className="text-xs text-slate-500">{new Date(flight.arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            </FadeIn>
+                        )}
                     </div>
 
                     {/* Sidebar */}
                     <div className="space-y-8">
                         {/* Booking Card */}
                         <FadeIn direction="left" delay={0.4}>
-                            <div className="bg-white p-8 rounded-xl shadow-lg sticky top-24 border border-slate-100">
-                                <div className="mb-6">
-                                    <span className="text-sm text-slate-500 block mb-1 font-medium uppercase tracking-wider">{t('priceFrom')}</span>
-                                    <div className="text-4xl font-bold text-primary">{cmsProgram.price.toLocaleString()} {cmsProgram.currency}</div>
+                            {cmsProgram.plans && cmsProgram.plans.length > 0 ? (
+                                <div className="bg-white p-6 rounded-xl shadow-lg sticky top-24 border border-slate-100">
+                                    <PaymentPlanSelector
+                                        title={cmsProgram.title}
+                                        image={'https://images.unsplash.com/photo-1503220317375-aaad6143d41b?auto=format&fit=crop&q=80'} // Placeholder until we have image field in DB/Types
+                                        description={cmsProgram.destination}
+                                        plans={cmsProgram.plans}
+                                    />
                                 </div>
+                            ) : (
+                                <div className="bg-white p-8 rounded-xl shadow-lg sticky top-24 border border-slate-100">
+                                    <div className="mb-6">
+                                        <span className="text-sm text-slate-500 block mb-1 font-medium uppercase tracking-wider">{t('priceFrom')}</span>
+                                        <div className="text-4xl font-bold text-primary">{cmsProgram.price.toLocaleString()} {cmsProgram.currency}</div>
+                                    </div>
 
-                                <div className="space-y-4 mb-8">
-                                    <div className="flex justify-between text-sm border-b border-slate-100 pb-3">
-                                        <span className="text-slate-500">{t('location')}</span>
-                                        <span className="font-medium text-slate-800">{cmsProgram.destination}</span>
+                                    <div className="space-y-4 mb-8">
+                                        <div className="flex justify-between text-sm border-b border-slate-100 pb-3">
+                                            <span className="text-slate-500">{t('location')}</span>
+                                            <span className="font-medium text-slate-800">{cmsProgram.destination}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex flex-col gap-3">
+                                        <button className="btn btn-primary w-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">{t('bookNow')}</button>
+                                        <button className="btn btn-outline w-full hover:bg-slate-50">{t('requestInfo')}</button>
                                     </div>
                                 </div>
-
-                                <div className="flex flex-col gap-3">
-                                    <button className="btn btn-primary w-full shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all">{t('bookNow')}</button>
-                                    <button className="btn btn-outline w-full hover:bg-slate-50">{t('requestInfo')}</button>
-                                </div>
-                            </div>
+                            )}
                         </FadeIn>
                     </div>
                 </div>

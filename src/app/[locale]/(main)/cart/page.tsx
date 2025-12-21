@@ -82,7 +82,7 @@ export default function CartPage() {
                     </div>
                     <h1 className="text-3xl font-bold text-slate-800 mb-4">¡Gracias por tu compra!</h1>
                     <p className="text-slate-500 mb-8">Tu reservación ha sido confirmada. En breve recibirás un correo con los detalles.</p>
-                    <Link href="/tec-de-monterrey" className="btn btn-primary block w-full">
+                    <Link href="/programs/tec-de-monterrey" className="btn btn-primary block w-full">
                         Volver a Programas
                     </Link>
                 </div>
@@ -102,7 +102,7 @@ export default function CartPage() {
                         </div>
                         <h2 className="text-xl font-bold text-slate-800 mb-2">Tu carrito está vacío</h2>
                         <p className="text-slate-500 mb-8">Parece que aún no has agregado ningún programa.</p>
-                        <Link href="/tec-de-monterrey" className="btn btn-primary inline-flex">
+                        <Link href="/programs/tec-de-monterrey" className="btn btn-primary inline-flex">
                             Explorar Programas
                         </Link>
                     </div>
@@ -161,7 +161,7 @@ export default function CartPage() {
                             >
                                 {t('checkout')}
                             </Link>
-                            <Link href="/tec-de-monterrey" className="text-center block text-sm text-slate-500 hover:text-primary transition-colors">
+                            <Link href="/programs/tec-de-monterrey" className="text-center block text-sm text-slate-500 hover:text-primary transition-colors">
                                 Continuar Comprando
                             </Link>
                         </div>

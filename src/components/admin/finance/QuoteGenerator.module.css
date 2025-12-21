@@ -1,0 +1,693 @@
+/* src/components/admin/finance/QuoteGenerator.module.css */
+
+.container {
+  color: #020617;
+  /* Default text color for the component context */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.page {
+  /* max-width: 1180px;   Let the parent container control width */
+  margin: 0 auto;
+  padding: 20px;
+  background: radial-gradient(circle at top, #0ea5e9 0, #020617 55%);
+  min-height: 100vh;
+  border-radius: 12px;
+  /* Slight radius for dashboard integration */
+}
+
+.header {
+  background: linear-gradient(135deg, #020617, #0b1220);
+  border-radius: 20px;
+  padding: 18px 22px 16px 22px;
+  color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.7);
+  margin-bottom: 24px;
+}
+
+.headerTitle {
+  font-size: 1.6rem;
+  margin: 0 0 4px 0;
+  font-weight: 700;
+}
+
+.headerSub {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.headerNote {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  margin-top: 4px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.headerActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: 1px solid transparent;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #0ea5e9;
+  /* accent */
+  color: #f9fafb;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.btnSecondary {
+  background: transparent;
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+.btn:hover {
+  opacity: 0.95;
+}
+
+.idCard {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.92);
+  color: #e5e7eb;
+  padding: 12px 14px 10px 14px;
+  border-radius: 16px;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.6);
+}
+
+.idCard label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+  color: #cbd5f5;
+  font-weight: 500;
+}
+
+.idCard input[type="text"] {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: rgba(15, 23, 42, 0.9);
+  color: #f9fafb;
+  font-size: 0.85rem;
+}
+
+.layout {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.3fr);
+  gap: 18px;
+  align-items: flex-start;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.card {
+  background: #ffffff;
+  /* color-card */
+  border-radius: 18px;
+  padding: 16px 16px 14px 16px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
+  margin-bottom: 14px;
+}
+
+.cardSoft {
+  background: #f3f4f6;
+  /* color-soft */
+  box-shadow: none;
+}
+
+.cardTitle {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #020617;
+  /* text-main */
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.field {
+  margin-bottom: 8px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.86rem;
+  margin-bottom: 3px;
+  color: #6b7280;
+  /* text-soft */
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  font-size: 0.9rem;
+  background: #f9fafb;
+  color: #020617;
+}
+
+.inputNumber {
+  text-align: right;
+}
+
+.textarea {
+  min-height: 42px;
+  resize: vertical;
+}
+
+.fieldInline {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.fieldInline>div {
+  flex: 1;
+}
+
+.moneyInput {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  padding: 0 6px;
+}
+
+.moneySymbol {
+  font-size: 0.9rem;
+  color: #4b5563;
+  padding-right: 4px;
+}
+
+.moneyInput input {
+  border: none;
+  background: transparent;
+  padding: 6px 4px 6px 2px;
+  width: 100%;
+  text-align: right;
+  font-size: 0.9rem;
+  outline: none;
+  box-shadow: none;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 0.86rem;
+  color: #6b7280;
+}
+
+.checkboxRow input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: #e0f2fe;
+  color: #0369a1;
+  margin-left: 4px;
+}
+
+.hint {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.auxRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr);
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.resultPanel {
+  background: #020617;
+  color: #e5e7eb;
+  border-radius: 18px;
+  padding: 16px;
+  position: sticky;
+  top: 12px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.9);
+}
+
+.resultHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.resultHeaderTitle {
+  font-size: 1.15rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.resultHeaderNote {
+  font-size: 0.78rem;
+  opacity: 0.7;
+}
+
+.tableOcupacion {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 0.86rem;
+}
+
+.tableOcupacion th,
+.tableOcupacion td {
+  padding: 6px 4px;
+  text-align: right;
+}
+
+.tableOcupacion th:first-child,
+.tableOcupacion td:first-child {
+  text-align: left;
+}
+
+.tableOcupacion thead {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.tableOcupacion tbody tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.35);
+}
+
+.summary {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.7);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.summaryTitle {
+  margin-bottom: 4px;
+  opacity: 0.95;
+  font-weight: 500;
+}
+
+.summaryLine {
+  opacity: 0.92;
+}
+
+.finCard {
+  margin-top: 14px;
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 10px 10px 8px 10px;
+  color: #020617;
+}
+
+.finTitle {
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.finHint {
+  font-size: 0.78rem;
+  color: #4b5563;
+  margin-top: 4px;
+}
+
+.finTable thead {
+  background: #e5e7eb;
+}
+
+.finTable tbody tr:nth-child(even) {
+  background: #f3f4f6;
+}
+
+.obsCard {
+  margin-top: 12px;
+  background: #f9fafb;
+  border-radius: 14px;
+  padding: 10px;
+  color: #020617;
+}
+
+.obsTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* History Panel */
+.historyPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 350px;
+  height: 100vh;
+  background: white;
+  box-shadow: -5px 0 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.historyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  color: #111827;
+}
+
+.historyHeader h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.historyHeader button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.saveBox {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.saveBox input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.btnSmall {
+  padding: 8px 12px;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.btnSmall:hover {
+  background: #1f2937;
+}
+
+.btnOutline {
+  padding: 8px 16px;
+  background: white;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btnOutline:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.versionList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.versionItem {
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+  background: white;
+}
+
+.versionItem:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.vName {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 0.95rem;
+}
+
+.vMeta {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.btnDelete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.4;
+  padding: 6px;
+  border-radius: 4px;
+  color: #ef4444;
+}
+
+.btnDelete:hover {
+  opacity: 1;
+  background: #fee2e2;
+}
+
+/* --- PRINT STYLES --- */
+@media print {
+
+  /* GLOBAL VISIBILITY HACK: Use visibility so we can un-hide specific children */
+  :global(body) {
+    visibility: hidden;
+  }
+
+  /* Make our specific component visible and position it content at top */
+  .container {
+    visibility: visible !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    background: white;
+    color: black;
+    z-index: 9999;
+  }
+
+  /* Ensure all children of our container inherit visibility or are explicitly visible */
+  .container * {
+    visibility: visible;
+  }
+
+  .page {
+    background: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    min-height: auto;
+  }
+
+  /* Hide UI Buttons explicitly with display none to remove them from layout */
+  .headerActions,
+  .historyPanel,
+  .btn,
+  .btnSmall,
+  .btnOutline,
+  .saveBox {
+    display: none !important;
+  }
+
+  /* Style Header for Print */
+  .header {
+    background: none;
+    box-shadow: none;
+    color: black;
+    padding: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    border-radius: 0;
+  }
+
+  .headerTitle {
+    font-size: 24pt;
+    color: black;
+  }
+
+  .headerSub,
+  .headerNote {
+    color: #444;
+  }
+
+  /* Style ID Card */
+  .idCard {
+    background: none;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    color: black;
+    margin-top: 0;
+    padding: 10px;
+  }
+
+  .idCard label {
+    color: #666;
+  }
+
+  .idCard input[type="text"] {
+    background: none;
+    border: none;
+    color: black;
+    padding: 0;
+    font-weight: bold;
+    border-bottom: 1px dotted #ccc;
+    border-radius: 0;
+  }
+
+  /* Layout Adjustments */
+  .layout {
+    display: block;
+    /* Stack column for print if needed, or keep grid if it fits */
+    page-break-inside: avoid;
+  }
+
+  .card,
+  .cardSoft,
+  .resultPanel {
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 20px;
+    color: black;
+    position: static;
+    /* Remove sticky for print */
+  }
+
+  .cardTitle {
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    color: black;
+  }
+
+  /* Input Simplification */
+  .input,
+  .select,
+  .textarea,
+  .moneyInput {
+    border: none;
+    background: none;
+    padding: 0;
+    color: black;
+  }
+
+  .moneyInput {
+    border-bottom: 1px dotted #ccc;
+    border-radius: 0;
+  }
+
+  .moneyInput input {
+    text-align: right;
+  }
+
+  .textarea {
+    resize: none;
+    height: auto;
+    border-bottom: 1px dotted #ccc;
+  }
+
+  /* Hide Checkboxes that are unchecked? Optional. For now let's just show them cleanly */
+  .checkboxRow {
+    color: black;
+  }
+
+  /* Results Table */
+  .tableOcupacion thead,
+  .tableOcupacion tbody tr:nth-child(even),
+  .summary,
+  .finCard,
+  .obsCard {
+    background: none;
+    color: black;
+    border: 1px solid #eee;
+  }
+
+  .resultPanel {
+    border: 1px solid #000;
+    padding: 20px;
+    margin-top: 20px;
+    page-break-inside: avoid;
+  }
+
+  .resultHeaderTitle {
+    font-size: 16pt;
+  }
+}

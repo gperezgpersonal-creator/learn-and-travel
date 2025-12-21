@@ -17,7 +17,8 @@ import {
     Resource,
     MOCK_RESOURCES,
     Message,
-    MOCK_MESSAGES
+    MOCK_MESSAGES,
+    Program
 } from './mockData';
 
 export const studentService = {
@@ -27,7 +28,7 @@ export const studentService = {
         return MOCK_TRIPS.find((t) => t.id === tripId) || MOCK_TRIPS[0];
     },
 
-    getProgram: async (programId: string): Promise<any | null> => {
+    getProgram: async (programId: string): Promise<Program | null> => {
         await new Promise((resolve) => setTimeout(resolve, 500));
         return MOCK_PROGRAMS.find((p) => p.id === programId) || null;
     },

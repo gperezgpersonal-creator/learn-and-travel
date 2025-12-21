@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^8.5.3",
+    "@supabase/supabase-js": "^2.88.0",
     "@tailwindcss/postcss": "^4.1.17",
     "@tailwindcss/typography": "^0.5.19",
     "@types/nodemailer": "^7.0.4",
@@ -21,6 +22,7 @@
     "nodemailer": "^7.0.11",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
+    "resend": "^6.6.0",
     "stripe": "^20.0.0",
     "tailwind-merge": "^3.4.0"
   },

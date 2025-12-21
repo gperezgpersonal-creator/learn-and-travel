@@ -3,8 +3,10 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { sendEmail } from '@/lib/email';
 import { formatCurrency } from '@/utils/format';
+import { supabase } from '@/lib/supabase';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     apiVersion: '2024-12-18.acacia' as any,
 });
 
@@ -31,6 +33,16 @@ export async function POST(req: Request) {
 
         // 2. Extract Data
         const customerEmail = session.customer_details?.email || session.customer_email || 'No email provided';
+
+        // Update Supabase Order Status
+        const { error: dbError } = await supabase
+            .from('orders')
+            .update({ status: 'paid' })
+            .eq('stripe_session_id', sessionId);
+
+        if (dbError) {
+            console.error('Error updating order status:', dbError);
+        }
         const customerName = session.customer_details?.name || 'Cliente';
         const amountTotal = session.amount_total ? session.amount_total / 100 : 0;
         const lineItems = session.line_items?.data || [];
@@ -97,8 +109,9 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ success: true });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error('Payment Success Handler Error:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }

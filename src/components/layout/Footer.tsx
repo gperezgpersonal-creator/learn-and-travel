@@ -36,7 +36,7 @@ export default function Footer() {
                                 {/* <li><Link href="/programs" className="hover:text-white transition-colors">{nav('programs')}</Link></li> */}
                                 <li><Link href="/blog" className="hover:text-white transition-colors">{nav('blog')}</Link></li>
                                 <li><Link href="/contact" className="hover:text-white transition-colors">{nav('contact')}</Link></li>
-                                <li><Link href="/intranet" className="hover:text-white transition-colors">{nav('intranet')}</Link></li>
+                                <li><Link href="/dashboard/login" className="hover:text-white transition-colors">Login</Link></li>
                             </ul>
                         </div>
                     </FadeIn>
@@ -55,7 +55,7 @@ export default function Footer() {
 
                 <FadeIn direction="up" delay={0.3}>
                     <div className="border-t border-slate-800 pt-8 text-center text-slate-500 text-sm">
-                        <p>&copy; {new Date().getFullYear()} Learn and Travel. {t('rights')} <span className="opacity-50 text-xs ml-2">v1.0.1</span></p>
+                        <p>&copy; {new Date().getFullYear()} Learn and Travel. {t('rights')} <span className="opacity-50 text-xs ml-2">v1.0.2</span></p>
                     </div>
                 </FadeIn>
             </div>

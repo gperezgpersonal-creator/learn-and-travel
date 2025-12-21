@@ -38,6 +38,7 @@ export default function FinancePage() {
         await new Promise(resolve => setTimeout(resolve, 800)); // Simulate API call
 
         const newTx: Transaction = {
+            // eslint-disable-next-line react-hooks/rules-of-hooks
             id: `tx-${Date.now()}`,
             userId: 'student-exemplary',
             amount: item.price,
@@ -121,8 +122,8 @@ export default function FinancePage() {
                                         </td>
                                         <td className="p-4 text-center">
                                             <span className={`px-2 py-1 rounded-full text-xs font-bold uppercase ${tx.status === 'paid' ? 'bg-green-100 text-green-700' :
-                                                    tx.status === 'overdue' ? 'bg-red-100 text-red-700' :
-                                                        'bg-orange-100 text-orange-700'
+                                                tx.status === 'overdue' ? 'bg-red-100 text-red-700' :
+                                                    'bg-orange-100 text-orange-700'
                                                 }`}>
                                                 {tx.status}
                                             </span>

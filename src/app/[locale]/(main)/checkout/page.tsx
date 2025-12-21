@@ -27,7 +27,7 @@ export default function CheckoutPage() {
             <main className="bg-slate-50 min-h-screen py-12">
                 <div className="container-custom max-w-4xl text-center">
                     <h1 className="text-3xl font-bold mb-4 text-slate-800">Tu carrito está vacío</h1>
-                    <Link href="/tec-de-monterrey" className="btn btn-primary inline-flex">
+                    <Link href="/programs/tec-de-monterrey" className="btn btn-primary inline-flex">
                         Explorar Programas
                     </Link>
                 </div>

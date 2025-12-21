@@ -18,14 +18,14 @@ export default function PrivacyPolicyPage() {
 
                     <h2 className="text-xl font-bold text-slate-800 mt-8 mb-4">1. Nuestro Compromiso con su Privacidad</h2>
                     <p>
-                        Ariagui Services LLC, bajo el nombre comercial Learn and Travel, se compromete a proteger la privacidad de nuestros clientes potenciales y existentes. Esta política de privacidad ("Política de Privacidad") se aplica a todos los Datos Personales (según se define a continuación) que procesamos, incluidos los datos personales recopilados o enviados a través de nuestros sitios web, correos electrónicos, aplicaciones móviles o a través de nuestras páginas oficiales en redes sociales, o a través de otros canales en línea y fuera de línea, como se describe más adelante (colectivamente, los "Productos Learn and Travel").
+                        Ariagui Services LLC, bajo el nombre comercial Learn and Travel, se compromete a proteger la privacidad de nuestros clientes potenciales y existentes. Esta política de privacidad (&quot;Política de Privacidad&quot;) se aplica a todos los Datos Personales (según se define a continuación) que procesamos, incluidos los datos personales recopilados o enviados a través de nuestros sitios web, correos electrónicos, aplicaciones móviles o a través de nuestras páginas oficiales en redes sociales, o a través de otros canales en línea y fuera de línea, como se describe más adelante (colectivamente, los &quot;Productos Learn and Travel&quot;).
                     </p>
                     <p>
                         Si usted no puede o no desea proporcionarnos la información personal que razonablemente requerimos, es posible que no podamos proporcionarle la información, bienes o servicios que ha solicitado.
                     </p>
 
                     <h2 className="text-xl font-bold text-slate-800 mt-8 mb-4">2. Datos Personales</h2>
-                    <p>"Datos Personales" se refiere a información o fragmentos de información que podrían permitir su identificación, tales como:</p>
+                    <p>&quot;Datos Personales&quot; se refiere a información o fragmentos de información que podrían permitir su identificación, tales como:</p>
                     <ul className="list-disc pl-5 space-y-2 mt-4">
                         <li>Nombre y datos de contacto (por ejemplo, dirección postal y de correo electrónico, número de teléfono)</li>
                         <li>Información de perfil (por ejemplo, nombre de usuario, foto de perfil o ID de cuenta en redes sociales)</li>
@@ -61,7 +61,7 @@ export default function PrivacyPolicyPage() {
                             <strong>Al navegar por nuestros sitios:</strong> También podemos recopilar información sobre su uso de nuestros servicios a través de su navegador para rastrear la actividad en nuestros sitios, como su dirección IP, dirección de Control de Acceso a Medios (MAC), tipo de computadora, resolución de pantalla, sistema operativo, etc.
                         </li>
                         <li>
-                            <strong>A través de cookies:</strong> Las "cookies" son fragmentos de información que un sitio web transfiere al disco duro de su computadora para fines de mantenimiento de registros. Utilizamos tanto cookies de sesión como persistentes.
+                            <strong>A través de cookies:</strong> Las &quot;cookies&quot; son fragmentos de información que un sitio web transfiere al disco duro de su computadora para fines de mantenimiento de registros. Utilizamos tanto cookies de sesión como persistentes.
                         </li>
                         <li>
                             <strong>Fuera de línea:</strong> Recopilamos datos personales de usted fuera de línea, por ejemplo, cuando contacta al servicio de atención al cliente, se inscribe en un producto o servicio, o nos proporciona información por escrito o durante una llamada telefónica o de video.

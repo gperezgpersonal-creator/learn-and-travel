@@ -3,31 +3,45 @@
 import { useState } from 'react';
 import { useRouter } from '@/navigation';
 import Image from 'next/image';
-import { authService } from '@/services/mock/authService';
-import { UserRole } from '@/services/mock/mockData';
+import { supabaseAuthService } from '@/services/supabase/auth';
 import FadeIn from '@/components/ui/FadeIn';
 
 export default function LoginPage() {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleLogin = async (role: UserRole) => {
+    const handleLogin = async (e: React.FormEvent) => {
+        e.preventDefault();
         setIsLoading(true);
+        setError('');
+
         try {
-            const { user } = await authService.login(role);
-            // In a real app, we would store the token in cookies/localStorage
-            console.log('Logged in as:', user);
+            const { user, error: loginError } = await supabaseAuthService.login(email, password);
+
+            if (loginError) {
+                setError(loginError);
+                return;
+            }
+
+            if (!user) {
+                setError('No user returned');
+                return;
+            }
 
             // Redirect based on role
-            if (role === 'student' || role === 'parent') {
-                router.push('/dashboard/student');
-            } else if (role === 'staff') {
+            if (user.role === 'staff') {
                 router.push('/dashboard/admin');
-            } else if (role === 'partner') {
-                router.push('/dashboard/partner');
+            } else {
+                setError('Access restricted to Staff members.');
             }
-        } catch (error) {
-            console.error('Login failed', error);
+
+        } catch (err: any) {
+            console.error('Login failed', err);
+            setError(err.message || 'Error occurred during login');
+        } finally {
             setIsLoading(false);
         }
     };
@@ -45,78 +59,48 @@ export default function LoginPage() {
                                 className="object-contain"
                             />
                         </div>
-                        <h1 className="text-2xl font-serif font-bold text-primary mb-2">Welcome Back</h1>
-                        <p className="text-slate-500 text-sm">Sign in to access your dashboard</p>
+                        <h1 className="text-2xl font-serif font-bold text-primary mb-2">Staff Access</h1>
+                        <p className="text-slate-500 text-sm">Sign in to manage the platform</p>
                     </div>
 
-                    <div className="p-8 space-y-4">
+                    <form onSubmit={handleLogin} className="p-8 space-y-4">
+                        {error && (
+                            <div className="p-3 bg-red-50 text-red-600 text-sm rounded-lg flex items-center gap-2">
+                                <span className="font-bold">Error:</span> {error}
+                            </div>
+                        )}
+
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-slate-700">Email</label>
                             <input
                                 type="email"
-                                placeholder="name@example.com"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="name@company.com"
                                 className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                                disabled
+                                required
                             />
                         </div>
                         <div className="space-y-2">
                             <label className="text-sm font-bold text-slate-700">Password</label>
                             <input
                                 type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
                                 className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                                disabled
+                                required
                             />
                         </div>
 
                         <button
-                            className="w-full btn btn-primary py-3 mt-4 opacity-50 cursor-not-allowed"
-                            disabled
+                            type="submit"
+                            className="w-full btn btn-primary py-3 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={isLoading}
                         >
-                            Sign In
+                            {isLoading ? 'Signing In...' : 'Sign In'}
                         </button>
-
-                        <div className="relative my-6">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-slate-200"></div>
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-slate-500">Dev Mode Access</span>
-                            </div>
-                        </div>
-
-                        {/* DevBar for Role Switching */}
-                        <div className="grid grid-cols-2 gap-3">
-                            <button
-                                onClick={() => handleLogin('student')}
-                                disabled={isLoading}
-                                className="px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-xs font-bold hover:bg-blue-100 transition-colors"
-                            >
-                                {isLoading ? '...' : 'Student Demo'}
-                            </button>
-                            <button
-                                onClick={() => handleLogin('parent')}
-                                disabled={isLoading}
-                                className="px-4 py-2 bg-purple-50 text-purple-700 rounded-lg text-xs font-bold hover:bg-purple-100 transition-colors"
-                            >
-                                {isLoading ? '...' : 'Parent Demo'}
-                            </button>
-                            <button
-                                onClick={() => handleLogin('staff')}
-                                disabled={isLoading}
-                                className="px-4 py-2 bg-red-50 text-red-700 rounded-lg text-xs font-bold hover:bg-red-100 transition-colors"
-                            >
-                                {isLoading ? '...' : 'Staff Demo'}
-                            </button>
-                            <button
-                                onClick={() => handleLogin('partner')}
-                                disabled={isLoading}
-                                className="px-4 py-2 bg-green-50 text-green-700 rounded-lg text-xs font-bold hover:bg-green-100 transition-colors"
-                            >
-                                {isLoading ? '...' : 'Partner Demo'}
-                            </button>
-                        </div>
-                    </div>
+                    </form>
 
                     <div className="bg-slate-50 p-4 text-center text-xs text-slate-400">
                         &copy; 2025 Learn and Travel. All rights reserved.

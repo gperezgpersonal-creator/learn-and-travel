@@ -1,45 +1,36 @@
 
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-interface SendEmailParams {
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+interface EmailOptions {
     to: string;
     subject: string;
+    html: string;
     text?: string;
-    html?: string;
     replyTo?: string;
 }
 
-export async function sendEmail({ to, subject, text, html, replyTo }: SendEmailParams) {
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-        console.warn('Email credentials not configured (EMAIL_USER/EMAIL_PASS)');
-        // In production, you might want to throw an error, 
-        // but for dev/demos without creds, we can just log it.
-        return false;
-    }
-
+export async function sendEmail({ to, subject, html, text, replyTo }: EmailOptions) {
     try {
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-            },
+        const fromEmail = process.env.NODE_ENV === 'production'
+            ? 'admin@learn-and-travel.com'
+            : 'onboarding@resend.dev'; // Sandbox Mode
+
+        await resend.emails.send({
+            from: fromEmail,
+            to: to,
+            subject: subject,
+            html: html,
+            text: text,
+            replyTo: replyTo,
         });
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to,
-            replyTo,
-            subject,
-            text,
-            html,
-        };
-
-        const info = await transporter.sendMail(mailOptions);
-        console.log('Email sent:', info.messageId);
-        return true;
+        console.log(`Email sent via Resend to ${to}`);
+        return { success: true };
     } catch (error) {
-        console.error('Error sending email:', error);
-        throw error;
+        console.error('Resend Error:', error);
+        return { success: false, error };
     }
 }
+

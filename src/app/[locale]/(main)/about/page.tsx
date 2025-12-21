@@ -66,7 +66,7 @@ export default function AboutPage() {
                     </div>
 
                     <FadeIn direction="up" delay={0.6}>
-                        <p className="text-center text-lg text-slate-500 italic max-w-2xl mx-auto">"{t('philosophyClosing')}"</p>
+                        <p className="text-center text-lg text-slate-500 italic max-w-2xl mx-auto">&quot;{t('philosophyClosing')}&quot;</p>
                     </FadeIn>
                 </div>
             </section>

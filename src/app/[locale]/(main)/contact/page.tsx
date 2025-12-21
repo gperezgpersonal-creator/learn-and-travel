@@ -12,7 +12,8 @@ export default function ContactPage() {
         name: '',
         email: '',
         interest: 'Programas Educativos', // Default to avoid empty value issues
-        message: ''
+        message: '',
+        website_url: '' // Honeypot
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +34,7 @@ export default function ContactPage() {
                 setStatus({ type: 'error', message: data.error });
             } else {
                 setStatus({ type: 'success', message: '¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.' });
-                setFormData({ name: '', email: '', interest: 'Programas Educativos', message: '' });
+                setFormData({ name: '', email: '', interest: 'Programas Educativos', message: '', website_url: '' });
             }
         } catch (error) {
             setStatus({ type: 'error', message: 'Error al enviar el mensaje. Inténtalo de nuevo.' });
@@ -106,6 +107,20 @@ export default function ContactPage() {
                                             {status.message}
                                         </div>
                                     )}
+
+                                    {/* Honeypot Field (Hidden from users) */}
+                                    <div className="hidden" aria-hidden="true">
+                                        <label htmlFor="website_url">Website URL</label>
+                                        <input
+                                            type="text"
+                                            id="website_url"
+                                            name="website_url"
+                                            tabIndex={-1}
+                                            autoComplete="off"
+                                            value={formData.website_url}
+                                            onChange={(e) => setFormData({ ...formData, website_url: e.target.value })}
+                                        />
+                                    </div>
 
                                     <button type="submit" disabled={isLoading} className="btn btn-primary w-full md:w-auto flex items-center justify-center gap-2">
                                         {isLoading && <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>}

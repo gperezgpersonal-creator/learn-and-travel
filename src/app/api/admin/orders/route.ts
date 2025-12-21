@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     apiVersion: '2024-12-18.acacia' as any,
 });
 
@@ -28,8 +29,9 @@ export async function GET() {
         });
 
         return NextResponse.json({ orders });
-    } catch (err: any) {
+    } catch (err: unknown) {
         console.error('Stripe Admin Error:', err);
-        return NextResponse.json({ error: err.message }, { status: 500 });
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
