@@ -8,6 +8,7 @@ export interface Proposal {
     status: ProposalStatus;
     latest_version_number: number;
     is_hidden: boolean;
+    custom_id?: string;
 }
 
 export interface ProposalVersion {

@@ -103,6 +103,11 @@ export default function Sidebar() {
                             <FileText className="w-5 h-5" />
                             Propuestas Cliente
                         </Link>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mt-4 mb-2 px-2">Marketing</div>
+                        <Link href="/dashboard/admin/coupons" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/coupons') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                            <Zap className="w-5 h-5" />
+                            Cupones
+                        </Link>
                     </>
                 )}
 

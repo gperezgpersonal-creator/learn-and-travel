@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Program } from '@/data/programs';
 import Image from 'next/image';
-import { Star, Users, Lightbulb, Check, Calendar, Shield, GraduationCap, Plane, Wallet, FileCheck, Trophy, ArrowRight, X } from 'lucide-react';
+import { Star, Users, Lightbulb, Check, Calendar, Shield, GraduationCap, Plane, Wallet, FileCheck, Trophy, ArrowRight, X, Hotel, Bus } from 'lucide-react';
 import LivePricing from '@/components/programs/LivePricing';
 
 export default function OrlandoLanding({ program }: { program: Program }) {
@@ -477,7 +477,7 @@ export default function OrlandoLanding({ program }: { program: Program }) {
                         {[
                             {
                                 day: "DÍA 1", date: "Martes 14 de abril", title: "Inicia la aventura",
-                                desc: "¡La espera ha terminado! Nos despedimos de la Ciudad de México y despegamos hacia la mágica ciudad de Orlando. Al llegar, nos dirigimos directamente al hotel para instalarnos. Tendremos la oportunidad de conocernos y hacer algunas actividades de integración",
+                                desc: "¡La espera ha terminado! Nos despedimos de la Ciudad de México y despegamos hacia la mágica ciudad de Orlando. Al llegar, nos instalaremos en el hotel y cerraremos el día con una increíble Cena de Bienvenida Sorpresa para conocernos y comenzar la diversión.",
                                 icon: Plane,
                                 image: "/images/adventure-start-day.png"
                             },
@@ -542,6 +542,98 @@ export default function OrlandoLanding({ program }: { program: Program }) {
                 </div>
             </section>
 
+            {/* LOGISTICS SECTION */}
+            <section className="py-24 bg-white container mx-auto px-4">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <span className="text-blue-600 font-bold tracking-wider text-sm uppercase mb-2 block">Logística del Viaje</span>
+                    <h2 className="text-4xl md:text-5xl font-bold text-[#0e1b3d] mb-6">Detalles del Servicio</h2>
+                    <p className="text-lg text-slate-600">
+                        Todo resuelto para que tú solo te preocupes por aprender y disfrutar.
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-8">
+                    {/* HOTEL */}
+                    <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-lg transition-shadow">
+                        <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 text-blue-600">
+                            <Hotel className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-xl font-bold text-[#0e1b3d] mb-4">Alojamiento Premium</h3>
+                        <div className="space-y-3 text-slate-600">
+                            <p className="font-semibold text-blue-900">Hilton Garden Inn Lake Buena Vista</p>
+                            <ul className="text-sm space-y-2">
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Ocupación Doble</span>
+                                </li>
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Camas Separadas (Queen)</span>
+                                </li>
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Hot Breakfast incluido</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* VUELOS */}
+                    <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-lg transition-shadow">
+                        <div className="w-14 h-14 bg-indigo-100 rounded-2xl flex items-center justify-center mb-6 text-indigo-600">
+                            <Plane className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-xl font-bold text-[#0e1b3d] mb-4">Vuelo Redondo</h3>
+                        <div className="space-y-3 text-slate-600">
+                            <p className="font-semibold text-blue-900">CDMX - Orlando - CDMX</p>
+                            <ul className="text-sm space-y-2">
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Vuelo Directo</span>
+                                </li>
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Artículo Personal</span>
+                                </li>
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Maleta Carry-On (10kg)</span>
+                                </li>
+                                <li className="flex gap-2 text-slate-400">
+                                    <X className="w-4 h-4 mt-0.5" />
+                                    <span>No incluye documentada</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* TRANSPORTE */}
+                    <div className="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-lg transition-shadow">
+                        <div className="w-14 h-14 bg-yellow-100 rounded-2xl flex items-center justify-center mb-6 text-yellow-600">
+                            <Bus className="w-8 h-8" />
+                        </div>
+                        <h3 className="text-xl font-bold text-[#0e1b3d] mb-4">Transporte Privado</h3>
+                        <div className="space-y-3 text-slate-600">
+                            <p className="font-semibold text-blue-900">Movilidad Ejecutiva</p>
+                            <ul className="text-sm space-y-2">
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Aeropuerto - Hotel - Aeropuerto</span>
+                                </li>
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Traslados a Actividades</span>
+                                </li>
+                                <li className="flex gap-2">
+                                    <Check className="w-4 h-4 text-green-500 mt-0.5" />
+                                    <span>Shuttle a Parques (Hotel)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* GALLERY BANNER */}
             <div className="w-full relative">
                 <Image
@@ -582,7 +674,9 @@ export default function OrlandoLanding({ program }: { program: Program }) {
                                         "Transporte Parques: Shuttle cortesía del hotel.",
                                         "Shopping: Visita a Premium Outlets (incluye transporte).",
                                         "Seguro Médico: Cobertura internacional para emergencias.",
-                                        "Staff: Acompañamiento de 1 profesor por cada 15 alumnos."
+                                        "Seguro Médico: Cobertura internacional para emergencias.",
+                                        "Staff: Acompañamiento de 1 profesor por cada 15 alumnos.",
+                                        "Cena de bienvenida sorpresa: Convivencia y mucha diversión (Día 1)."
                                     ].map((inc, i) => (
                                         <div key={i} className="flex gap-3 items-start">
                                             <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />

@@ -3,13 +3,14 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Proposal, ProposalStatus } from '@/types/proposal';
-import { Loader2, Plus, FileText, ExternalLink, Edit } from 'lucide-react';
+import { Loader2, Plus, FileText, ExternalLink, Edit, Link as LinkIcon, Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function ProposalsPage() {
     const [proposals, setProposals] = useState<Proposal[]>([]);
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
+    const [copiedId, setCopiedId] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -29,6 +30,13 @@ export default function ProposalsPage() {
             setProposals(data || []);
         }
         setLoading(false);
+    };
+
+    const handleCopyLink = (id: string) => {
+        const url = `${window.location.origin}/proposals/${id}`;
+        navigator.clipboard.writeText(url);
+        setCopiedId(id);
+        setTimeout(() => setCopiedId(null), 2000);
     };
 
     const createNewProposal = async () => {
@@ -69,14 +77,23 @@ export default function ProposalsPage() {
                     <h1 className="text-2xl font-bold text-slate-800">Propuestas Cliente</h1>
                     <p className="text-slate-500 text-sm">Gestiona y crea propuestas de viaje personalizadas.</p>
                 </div>
-                <button
-                    onClick={createNewProposal}
-                    disabled={creating}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#122045] text-white rounded-lg hover:bg-slate-800 transition-colors font-medium disabled:opacity-50"
-                >
-                    {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-                    Nueva Propuesta
-                </button>
+                <div className="flex gap-2">
+                    <button
+                        onClick={() => router.push('/dashboard/admin/proposals/logos')}
+                        className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg hover:bg-slate-50 transition-colors font-medium text-sm"
+                    >
+                        <FileText className="w-4 h-4" />
+                        Catálogo de Logos
+                    </button>
+                    <button
+                        onClick={createNewProposal}
+                        disabled={creating}
+                        className="flex items-center gap-2 px-4 py-2 bg-[#122045] text-white rounded-lg hover:bg-slate-800 transition-colors font-medium disabled:opacity-50 text-sm"
+                    >
+                        {creating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+                        Nueva Propuesta
+                    </button>
+                </div>
             </div>
 
             {loading ? (
@@ -105,6 +122,7 @@ export default function ProposalsPage() {
                         <table className="w-full text-left text-sm text-slate-600">
                             <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase font-semibold text-slate-500">
                                 <tr>
+                                    <th className="px-6 py-4">ID</th>
                                     <th className="px-6 py-4">Título</th>
                                     <th className="px-6 py-4">Cliente</th>
                                     <th className="px-6 py-4">Status</th>
@@ -116,6 +134,9 @@ export default function ProposalsPage() {
                             <tbody className="divide-y divide-slate-100">
                                 {proposals.map((proposal) => (
                                     <tr key={proposal.id} className="hover:bg-slate-50 transition-colors">
+                                        <td className="px-6 py-4 font-mono text-xs text-slate-500 font-bold">
+                                            {proposal.custom_id || '-'}
+                                        </td>
                                         <td className="px-6 py-4 font-medium text-slate-900 icon-link-hover group cursor-pointer" onClick={() => router.push(`/dashboard/admin/proposals/${proposal.id}/edit`)}>
                                             <div className="flex items-center gap-3">
                                                 <div className="w-8 h-8 rounded bg-blue-50 flex items-center justify-center text-blue-600">
@@ -148,13 +169,22 @@ export default function ProposalsPage() {
                                                     <Edit className="w-4 h-4" />
                                                 </button>
                                                 {proposal.latest_version_number > 0 && (
-                                                    <button
-                                                        onClick={(e) => { e.stopPropagation(); window.open(`/proposals/${proposal.id}`, '_blank'); }}
-                                                        className="p-2 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                                        title="Ver Propuesta Pública"
-                                                    >
-                                                        <ExternalLink className="w-4 h-4" />
-                                                    </button>
+                                                    <>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleCopyLink(proposal.id); }}
+                                                            className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                                                            title="Copiar Enlace Público"
+                                                        >
+                                                            {copiedId === proposal.id ? <Check className="w-4 h-4 text-green-600" /> : <LinkIcon className="w-4 h-4" />}
+                                                        </button>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); window.open(`/proposals/${proposal.id}`, '_blank'); }}
+                                                            className="p-2 text-slate-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                                                            title="Ver Propuesta Pública"
+                                                        >
+                                                            <ExternalLink className="w-4 h-4" />
+                                                        </button>
+                                                    </>
                                                 )}
                                             </div>
                                         </td>

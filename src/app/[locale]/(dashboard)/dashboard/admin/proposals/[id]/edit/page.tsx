@@ -43,28 +43,34 @@ const TextArea = ({ label, value, onChange, placeholder, rows = 4 }: any) => (
 );
 
 // Helper for Logo Selection
-const LogoSelector = ({ value, onChange }: any) => {
-    const logos = [
-        { id: 'tec', label: 'Tec de Monterrey', url: '/tec-monterrey-white.png' },
-        { id: 'prepa', label: 'PrepaTec', url: '/images/prepatec-logo-white.png' },
-        { id: 'lt', label: 'Learn & Travel', url: 'https://learnandtravel.com/logo.png' } // Placeholder
-    ];
+import { MAIN_LOGOS } from '@/constants/logos';
 
+const LogoSelector = ({ value, onChange }: any) => {
     return (
-        <div className="space-y-2">
-            <label className="text-xs font-semibold uppercase text-slate-500 tracking-wider">Logotipo Principal</label>
-            <div className="flex gap-4">
-                {logos.map(logo => (
+        <div className="space-y-3">
+            <div className="flex items-center justify-between">
+                <label className="text-xs font-semibold uppercase text-slate-500 tracking-wider">Logotipo Principal</label>
+                <div className="w-48">
+                    <LogoCombobox
+                        value={!MAIN_LOGOS.find(l => l.url === value) ? value : ""}
+                        onChange={(url) => onChange(url)}
+                        placeholder="📂 Buscar otro..."
+                    />
+                </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+                {/* Visual buttons only for Presets */}
+                {MAIN_LOGOS.map(logo => (
                     <button
                         key={logo.id}
                         onClick={() => onChange(logo.url)}
                         className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center gap-2 w-32 ${value === logo.url
-                            ? 'border-indigo-400 bg-indigo-900/80 ring-2 ring-indigo-400' // Selected: Blue bg + highlight
-                            : 'border-slate-800 hover:border-slate-600 bg-slate-900' // Unselected: Dark slate
+                            ? 'border-indigo-400 bg-indigo-900/80 ring-2 ring-indigo-400' // Selected
+                            : 'border-slate-800 hover:border-slate-600 bg-slate-900' // Unselected
                             }`}
                     >
                         <div className="h-12 flex items-center justify-center">
-                            {/* In real app use Next Image, using img for simple external urls in demo */}
                             <img src={logo.url} alt={logo.label} className="max-h-full max-w-full object-contain" />
                         </div>
                         <span className={`text-xs font-medium ${value === logo.url ? 'text-indigo-700' : 'text-slate-500'}`}>
@@ -120,6 +126,8 @@ const VersionHistory = ({ proposalId, currentVersion }: { proposalId: string, cu
 };
 
 // Helper for Partners List
+import { LogoCombobox } from '@/components/ui/LogoCombobox';
+
 const PartnersListEditor = ({ value, onChange }: { value: { name: string; image_url?: string }[]; onChange: (val: any[]) => void }) => {
     const [newName, setNewName] = useState('');
     const [newUrl, setNewUrl] = useState('');
@@ -137,19 +145,33 @@ const PartnersListEditor = ({ value, onChange }: { value: { name: string; image_
         onChange(newValue);
     };
 
+    const handleCatalogSelect = (url: string, label?: string) => {
+        if (label) setNewName(label);
+        setNewUrl(url);
+    };
+
     return (
         <div className="space-y-4 pt-4 border-t border-slate-100">
-            <h3 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                Lista de Partners
-                <span className="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{value.length}</span>
-            </h3>
+            <div className="flex items-center justify-between">
+                <h3 className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                    Lista de Partners
+                    <span className="text-xs font-normal text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{value.length}</span>
+                </h3>
+                <div className="w-48">
+                    <LogoCombobox
+                        value=""
+                        onChange={handleCatalogSelect}
+                        placeholder="📚 Catálogo Rápido..."
+                    />
+                </div>
+            </div>
 
             <div className="space-y-2">
                 {value.map((partner, idx) => (
                     <div key={idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100 group">
-                        <div className="w-8 h-8 bg-white rounded border border-slate-200 flex items-center justify-center overflow-hidden">
+                        <div className="w-8 h-8 bg-white rounded border border-slate-200 flex items-center justify-center overflow-hidden p-1">
                             {partner.image_url ? (
-                                <img src={partner.image_url} alt={partner.name} className="w-full h-full object-cover" />
+                                <img src={partner.image_url} alt={partner.name} className="w-full h-full object-contain" />
                             ) : (
                                 <span className="text-xs text-slate-300">Img</span>
                             )}
@@ -320,12 +342,22 @@ export default function ProposalEditorPage({ params }: { params: Promise<{ id: s
                 if (newVerError) throw newVerError;
                 currentVersionId = newVer.id;
 
-                await supabase.from('proposals').update({ latest_version_number: currentVersionNumber, title: content.general.program_title || proposal.title, status: publish ? 'Sent' : 'Draft' }).eq('id', proposal.id);
+                await supabase.from('proposals').update({
+                    latest_version_number: currentVersionNumber,
+                    title: content.general.program_title || proposal.title,
+                    status: publish ? 'Sent' : 'Draft',
+                    custom_id: proposal.custom_id
+                }).eq('id', proposal.id);
                 if (!publish) setVersionId(newVer.id);
                 setProposal({ ...proposal, latest_version_number: currentVersionNumber, title: content.general.program_title || proposal.title });
             } else {
                 await supabase.from('proposal_versions').update({ content: content, is_published: publish, created_at: new Date().toISOString() }).eq('id', currentVersionId);
-                await supabase.from('proposals').update({ title: content.general.program_title || proposal.title, status: publish ? 'Sent' : 'Draft' }).eq('id', proposal.id);
+                // Update Metadata including custom_id
+                await supabase.from('proposals').update({
+                    title: content.general.program_title || proposal.title,
+                    status: publish ? 'Sent' : 'Draft',
+                    custom_id: proposal.custom_id // Keep custom_id synced
+                }).eq('id', proposal.id);
             }
             if (publish) { setVersionId(null); alert('¡Versión publicada y "Enviada" correctamente!'); }
         } catch (err) { console.error(err); alert('Error al guardar.'); }
@@ -352,7 +384,10 @@ export default function ProposalEditorPage({ params }: { params: Promise<{ id: s
                     </Link>
                     <div>
                         <h1 className="text-xl font-bold text-slate-800 line-clamp-1">{content.general.program_title || 'Nueva Propuesta'}</h1>
-                        <p className="text-xs font-mono text-slate-500">v{proposal?.latest_version_number}{versionId ? ' (Draft)' : ' (Published)'} • {proposal?.client_name}</p>
+                        <p className="text-xs font-mono text-slate-500">
+                            {proposal?.custom_id && <span className="mr-2 font-bold px-1.5 py-0.5 bg-slate-100 rounded text-slate-600">{proposal.custom_id}</span>}
+                            v{proposal?.latest_version_number}{versionId ? ' (Draft)' : ' (Published)'} • {proposal?.client_name}
+                        </p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -385,6 +420,15 @@ export default function ProposalEditorPage({ params }: { params: Promise<{ id: s
                     {activeTab === 'general' && (
                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
                             <SectionTitle icon={Info}>Información General</SectionTitle>
+                            <div className="bg-slate-50 p-4 rounded-lg border border-slate-100 mb-6">
+                                <Input
+                                    label="ID de Propuesta (Opcional)"
+                                    placeholder="Ej. PROP-2025-001"
+                                    value={proposal?.custom_id}
+                                    onChange={(v: string) => proposal && setProposal({ ...proposal, custom_id: v })}
+                                    helper="Este ID es para control interno y aparecerá en el listado."
+                                />
+                            </div>
                             <LogoSelector value={content.general.logo_url} onChange={(v: string) => setContent({ ...content, general: { ...content.general, logo_url: v } })} />
                             <div className="grid grid-cols-2 gap-6 pt-4">
                                 <Input label="Nombre del Cliente / Profesor" placeholder="Ej. Juan Pérez" value={content.general.professor_name} onChange={(v: string) => setContent({ ...content, general: { ...content.general, professor_name: v } })} />
