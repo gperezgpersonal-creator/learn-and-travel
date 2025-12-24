@@ -14,7 +14,7 @@ import OrdersTable from '@/components/admin/finance/OrdersTable';
 export default function FinancePage() {
     const searchParams = useSearchParams();
     const initialTab = searchParams.get('tab') as 'quoter' | 'historial' | 'orders' | 'pricing' | null;
-    const [activeTab, setActiveTab] = useState<'quoter' | 'historial' | 'orders' | 'pricing'>(initialTab || 'quoter');
+    const [activeTab, setActiveTab] = useState<'quoter' | 'historial' | 'orders' | 'pricing' | 'cobranza'>(initialTab || 'quoter');
     const [loadedVersion, setLoadedVersion] = useState<any>(null);
 
     const handleLoadVersion = (version: any) => {
@@ -28,14 +28,14 @@ export default function FinancePage() {
                 <div className="flex justify-between items-center mb-6">
                     <div>
                         <h1 className="text-3xl font-serif font-bold text-primary mb-2">Financial Management</h1>
-                        <p className="text-slate-500">Administración de cotizaciones y pedidos.</p>
+                        <p className="text-slate-500">Administración de cotizaciones, pedidos y cobranza.</p>
                     </div>
                 </div>
             </FadeIn>
 
             {/* Tabs */}
             <div className="flex border-b border-slate-200 mb-6 overflow-x-auto">
-                {['quoter', 'historial', 'orders', 'pricing'].map((tab) => (
+                {['quoter', 'historial', 'orders', 'pricing', 'cobranza'].map((tab) => (
                     <button
                         key={tab}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,7 +45,8 @@ export default function FinancePage() {
                         {tab === 'quoter' ? 'Nuevo Cotizador' :
                             tab === 'historial' ? 'Historial Cotizaciones' :
                                 tab === 'orders' ? 'Admin Orders' :
-                                    tab === 'pricing' ? 'Precios' : tab}
+                                    tab === 'pricing' ? 'Precios' :
+                                        tab === 'cobranza' ? 'Cobranza (BETA)' : tab}
                     </button>
                 ))}
             </div>
@@ -75,6 +76,18 @@ export default function FinancePage() {
             {activeTab === 'orders' && (
                 <FadeIn>
                     <OrdersTable />
+                </FadeIn>
+            )}
+
+            {/* COBRANZA VIEW */}
+            {activeTab === 'cobranza' && (
+                <FadeIn>
+                    <div className="p-4 bg-slate-50 rounded border border-slate-200 text-center">
+                        <p className="text-slate-600 mb-4">Módulo de Cobranza en construcción.</p>
+                        <Link href="/dashboard/admin/finance/collections" className="btn btn-primary">
+                            Ir al Tablero de Cobranza
+                        </Link>
+                    </div>
                 </FadeIn>
             )}
         </div>

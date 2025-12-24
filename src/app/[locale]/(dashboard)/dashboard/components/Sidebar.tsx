@@ -22,7 +22,7 @@ export default function Sidebar() {
                     <img src="/logo.png" alt="Learn and Travel" className="h-8 w-auto object-contain" />
                 </Link>
                 <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                    {pathname.includes('/student') ? 'Student Platform' :
+                    {pathname.includes('/dashboard/student') ? 'Student Platform' :
                         pathname.includes('/admin') ? 'Staff Platform' :
                             pathname.includes('/partner') ? 'Partner Platform' :
                                 'Platform'}
@@ -33,7 +33,7 @@ export default function Sidebar() {
                 <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2 px-2">Menu</div>
 
                 {/* Student Links */}
-                {pathname.includes('/student') && (
+                {pathname.includes('/dashboard/student') && (
                     <>
                         <Link href="/dashboard/student" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/student') && !isActive('/student/') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <Home className="w-5 h-5" /> Dashboard
@@ -66,9 +66,13 @@ export default function Sidebar() {
                             <Home className="w-5 h-5" />
                             Overview
                         </Link> */}
+                        <Link href="/dashboard/admin/students" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/students') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
+                            <Users className="w-5 h-5" />
+                            Directorio de Alumnos
+                        </Link>
                         <Link href="/dashboard/admin/finance" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/finance') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <CreditCard className="w-5 h-5" />
-                            Finance
+                            Finanzas & Cobranza
                         </Link>
                         {/* <Link href="/dashboard/admin/dashboard" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/dashboard/admin/dashboard') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <BarChart className="w-5 h-5" />

@@ -57,6 +57,14 @@ export async function POST(req: Request) {
                 phone: customerDetails?.phone,
                 // Add any other fields you want to see in the dashboard
             },
+            payment_intent_data: {
+                metadata: {
+                    studentName: customerDetails?.studentName,
+                    studentId: customerDetails?.studentId,
+                    programName: items[0]?.title, // Assuming one program per checkout for now, or join titles
+                    school: customerDetails?.school
+                }
+            }
         });
 
         // Store order in Supabase
