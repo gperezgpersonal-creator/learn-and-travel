@@ -3,10 +3,12 @@
 import { useEffect, useState, use } from 'react';
 import { FinanceService, Student, LedgerEntry } from '@/services/supabase/financeService';
 import { StudentService } from '@/services/supabase/studentService';
-import { Loader2, ArrowLeft, Plus, DollarSign, Calendar, CreditCard, Mail, Phone, Calendar as CalendarIcon, Link as LinkIcon, Copy, FileText, CheckCircle, AlertCircle, Download, Eye, MapPin } from 'lucide-react';
+import { Loader2, ArrowLeft, Plus, DollarSign, Calendar, CreditCard, Mail, Phone, Calendar as CalendarIcon, Link as LinkIcon, Copy, FileText, CheckCircle, AlertCircle, Download, Eye, MapPin, Search, Trash2 } from 'lucide-react';
 import { Link } from '@/navigation';
 import FadeIn from '@/components/ui/FadeIn';
 import LedgerTable from '../../finance/collections/components/LedgerTable';
+
+import { tecPrograms } from '@/data/programs';
 
 export default function StudentProfilePage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
@@ -14,6 +16,7 @@ export default function StudentProfilePage({ params }: { params: Promise<{ id: s
     const [student, setStudent] = useState<Student | null>(null);
     const [ledger, setLedger] = useState<LedgerEntry[]>([]);
     const [documents, setDocuments] = useState<any[]>([]);
+    const [enrollments, setEnrollments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
     // Manual Charge/Payment State
@@ -22,6 +25,12 @@ export default function StudentProfilePage({ params }: { params: Promise<{ id: s
     const [chargeAmount, setChargeAmount] = useState('');
     const [chargeConcept, setChargeConcept] = useState('');
     const [activeTab, setActiveTab] = useState<'financial' | 'profile'>('profile'); // Default to profile
+
+    // Enrollment Modal State
+    const [showEnrollModal, setShowEnrollModal] = useState(false);
+    const [programSearch, setProgramSearch] = useState('');
+    const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
+    const [enrolling, setEnrolling] = useState(false);
 
     // New fields for payment
     const [paymentMethod, setPaymentMethod] = useState('cash');
@@ -41,11 +50,20 @@ export default function StudentProfilePage({ params }: { params: Promise<{ id: s
             const [studentData, ledgerData, docsData] = await Promise.all([
                 FinanceService.getStudentById(id),
                 FinanceService.getStudentLedger(id),
-                StudentService.getDocuments(id)
+                StudentService.getDocuments(id),
             ]);
+            let enrollmentsData: any[] = [];
+            try {
+                // Fetch enrollments separately to avoid failing entire page if table missing
+                enrollmentsData = await StudentService.getStudentEnrollments(id);
+            } catch (e) {
+                console.warn('Could not fetch enrollments (migration might be pending):', e);
+            }
+
             setStudent(studentData);
             setLedger(ledgerData);
             setDocuments(docsData);
+            setEnrollments(enrollmentsData);
         } catch (error) {
             console.error('Failed to load student data', error);
         } finally {
@@ -349,31 +367,31 @@ export default function StudentProfilePage({ params }: { params: Promise<{ id: s
                                 </button>
                                 {magicLink && (
                                     <div className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                                        <div className="text-xs text-slate-500 mb-1">Copia y envía este link:</div>
-                                        <div className="flex items-center gap-2">
-                                            <input
-                                                readOnly
-                                                value={magicLink}
-                                                className="text-xs font-mono bg-white border border-slate-200 rounded px-2 py-1 flex-1 w-full"
-                                                onClick={(e) => e.currentTarget.select()}
-                                            />
-                                            <button
-                                                onClick={() => navigator.clipboard.writeText(magicLink)}
-                                                className="p-1.5 hover:bg-slate-200 rounded text-slate-500"
-                                                title="Copiar"
+                                        <div className="text-xs text-slate-500 mb-2">Compartir acceso seguro:</div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                                            <a
+                                                href={`https://wa.me/${student.phone?.replace(/\D/g, '') || ''}?text=${encodeURIComponent(`Hola ${student.first_name}, por favor completa tu documentación para ${(student as any).program_id || 'tu programa'} en el siguiente enlace: ${magicLink}`)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="col-span-1 px-3 py-2 bg-[#25D366] hover:bg-[#128C7E] text-white text-xs font-bold rounded transition-colors flex items-center justify-center gap-1.5"
                                             >
-                                                <Copy className="w-3 h-3" />
-                                            </button>
+                                                <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                                                </svg>
+                                                WhatsApp
+                                            </a>
+                                            <a
+                                                href={magicLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="col-span-1 px-3 py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold rounded transition-colors flex items-center justify-center gap-1.5"
+                                            >
+                                                <LinkIcon className="w-3 h-3" /> Abrir Link
+                                            </a>
+                                            <CopyButton link={magicLink} />
                                         </div>
-                                        <a
-                                            href={magicLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="block w-full text-center mt-2 px-3 py-1.5 bg-indigo-50 text-indigo-700 text-xs font-medium rounded hover:bg-indigo-100 transition-colors flex items-center justify-center gap-1"
-                                        >
-                                            <LinkIcon className="w-3 h-3" /> Abrir Link
-                                        </a>
-                                        <div className="text-[10px] text-amber-600 mt-1">Vence en 7 días</div>
+                                        <div className="text-[10px] text-amber-600 mt-2 text-center">Vence en 7 días</div>
                                     </div>
                                 )}
                             </div>
@@ -381,74 +399,120 @@ export default function StudentProfilePage({ params }: { params: Promise<{ id: s
                     </div>
                 )}
 
-                {activeTab === 'financial' && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        {/* Financial Summary */}
-                        <div className="md:col-span-2 space-y-6">
-                            {/* Enrolled Programs Mockup */}
-                            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
-                                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 border-b border-slate-100 pb-2">Programas Inscritos</h3>
-                                <div className="text-sm text-slate-500 italic">
-                                    No programs found (Enrollment syncing pending).
+                {
+                    activeTab === 'financial' && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            {/* Financial Summary */}
+                            <div className="md:col-span-2 space-y-6">
+                                {/* Enrolled Programs Mockup */}
+                                <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                                    <div className="flex justify-between items-center mb-4 border-b border-slate-100 pb-2">
+                                        <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Programas Inscritos</h3>
+                                        <button
+                                            onClick={() => {
+                                                setProgramSearch('');
+                                                setSelectedProgramId(null);
+                                                setShowEnrollModal(true);
+                                            }}
+                                            className="text-xs bg-slate-900 text-white px-2 py-1 rounded hover:bg-slate-700"
+                                        >
+                                            + Inscribir
+                                        </button>
+                                    </div>
+
+                                    {enrollments.length === 0 ? (
+                                        <div className="text-sm text-slate-500 italic">
+                                            No inscrito en ningún programa.
+                                        </div>
+                                    ) : (
+                                        <ul className="space-y-2">
+                                            {enrollments.map((enr, i) => (
+                                                <li key={i} className="flex justify-between items-center bg-slate-50 p-3 rounded group/item">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="font-medium text-sm text-slate-700">{enr.program_id}</span>
+                                                        <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded-full font-bold uppercase">{enr.status}</span>
+                                                    </div>
+                                                    <button
+                                                        onClick={async () => {
+                                                            if (confirm(`¿Estás seguro de dar de baja al alumno del programa ${enr.program_id}?`)) {
+                                                                try {
+                                                                    await StudentService.unenrollStudent(id, enr.program_id);
+                                                                    await loadData();
+                                                                } catch (e: any) {
+                                                                    alert('Error al dar de baja: ' + e.message);
+                                                                }
+                                                            }
+                                                        }}
+                                                        className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                                                        title="Dar de baja / Remover"
+                                                    >
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </div>
+
+                                <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 flex items-center justify-between">
+                                    <div>
+                                        <p className="text-sm font-medium text-slate-500 uppercase">Current Balance</p>
+                                        <p className={`text-4xl font-bold mt-2 ${(student.balance || 0) > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                                            ${(student.balance || 0).toLocaleString()}
+                                        </p>
+                                        <p className="text-xs text-slate-400 mt-1">
+                                            {(student.balance || 0) > 0 ? 'Outstanding Debt' : 'Fully Paid / Credit'}
+                                        </p>
+                                    </div>
+                                    <div className="text-right space-y-1">
+                                        <p className="text-sm text-slate-600">Total Charged: <span className="font-semibold">${(student.total_charges || 0).toLocaleString()}</span></p>
+                                        <p className="text-sm text-slate-600">Total Paid: <span className="font-semibold text-green-600">${(student.total_payments || 0).toLocaleString()}</span></p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-slate-500 uppercase">Current Balance</p>
-                                    <p className={`text-4xl font-bold mt-2 ${(student.balance || 0) > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                                        ${(student.balance || 0).toLocaleString()}
-                                    </p>
-                                    <p className="text-xs text-slate-400 mt-1">
-                                        {(student.balance || 0) > 0 ? 'Outstanding Debt' : 'Fully Paid / Credit'}
-                                    </p>
-                                </div>
-                                <div className="text-right space-y-1">
-                                    <p className="text-sm text-slate-600">Total Charged: <span className="font-semibold">${(student.total_charges || 0).toLocaleString()}</span></p>
-                                    <p className="text-sm text-slate-600">Total Paid: <span className="font-semibold text-green-600">${(student.total_payments || 0).toLocaleString()}</span></p>
-                                </div>
+                            {/* Actions */}
+                            <div className="flex flex-col gap-4">
+                                <button
+                                    onClick={() => openTransactionModal('charge')}
+                                    className="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl p-4 shadow-sm flex items-center justify-center gap-3 transition-colors flex-1"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-red-200 flex items-center justify-center">
+                                        <Plus className="w-4 h-4 text-red-700" />
+                                    </div>
+                                    <span className="font-semibold">Add Charge (Deuda)</span>
+                                </button>
+
+                                <button
+                                    onClick={() => openTransactionModal('payment')}
+                                    className="bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 rounded-xl p-4 shadow-sm flex items-center justify-center gap-3 transition-colors flex-1"
+                                >
+                                    <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center">
+                                        <DollarSign className="w-4 h-4 text-green-700" />
+                                    </div>
+                                    <span className="font-semibold">Register Payment (Abono)</span>
+                                </button>
                             </div>
                         </div>
+                    )
+                }
 
-                        {/* Actions */}
-                        <div className="flex flex-col gap-4">
-                            <button
-                                onClick={() => openTransactionModal('charge')}
-                                className="bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 rounded-xl p-4 shadow-sm flex items-center justify-center gap-3 transition-colors flex-1"
-                            >
-                                <div className="w-8 h-8 rounded-full bg-red-200 flex items-center justify-center">
-                                    <Plus className="w-4 h-4 text-red-700" />
-                                </div>
-                                <span className="font-semibold">Add Charge (Deuda)</span>
-                            </button>
-
-                            <button
-                                onClick={() => openTransactionModal('payment')}
-                                className="bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 rounded-xl p-4 shadow-sm flex items-center justify-center gap-3 transition-colors flex-1"
-                            >
-                                <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center">
-                                    <DollarSign className="w-4 h-4 text-green-700" />
-                                </div>
-                                <span className="font-semibold">Register Payment (Abono)</span>
-                            </button>
+                {
+                    activeTab === 'financial' && (
+                        <div>
+                            <h3 className="text-lg font-bold text-slate-900 mb-4">Financial Ledger</h3>
+                            <LedgerTable
+                                entries={ledger}
+                                onReverse={async (entry) => {
+                                    await FinanceService.unreconcilePayment(entry.id);
+                                    await loadData();
+                                }}
+                            />
                         </div>
-                    </div>
-                )}
+                    )
+                }
 
-                {activeTab === 'financial' && (
-                    <div>
-                        <h3 className="text-lg font-bold text-slate-900 mb-4">Financial Ledger</h3>
-                        <LedgerTable
-                            entries={ledger}
-                            onReverse={async (entry) => {
-                                await FinanceService.unreconcilePayment(entry.id);
-                                await loadData();
-                            }}
-                        />
-                    </div>
-                )}
-
-            </FadeIn>
+            </FadeIn >
 
             {/* Manual Charge/Payment Form Modal */}
             {
@@ -538,6 +602,135 @@ export default function StudentProfilePage({ params }: { params: Promise<{ id: s
                     </div>
                 )
             }
+
+            {/* Enrollment Modal */}
+            {showEnrollModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-in fade-in zoom-in-95 duration-200">
+                        <div className="flex justify-between items-center mb-4">
+                            <h2 className="text-xl font-bold text-slate-900">Inscribir a Programa</h2>
+                            <button onClick={() => setShowEnrollModal(false)} className="text-slate-400 hover:text-slate-600">×</button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Buscar Programa</label>
+                                <div className="relative">
+                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Buscar por ID o Nombre..."
+                                        className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                                        value={programSearch}
+                                        onChange={e => setProgramSearch(e.target.value)}
+                                        autoFocus
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="border border-slate-200 rounded-lg max-h-60 overflow-y-auto">
+                                {tecPrograms.filter(p =>
+                                    p.id.toLowerCase().includes(programSearch.toLowerCase()) ||
+                                    p.title.toLowerCase().includes(programSearch.toLowerCase())
+                                ).length === 0 ? (
+                                    <div className="p-4 text-center text-slate-500 text-sm">No se encontraron programas.</div>
+                                ) : (
+                                    <ul className="divide-y divide-slate-100">
+                                        {tecPrograms.filter(p =>
+                                            p.id.toLowerCase().includes(programSearch.toLowerCase()) ||
+                                            p.title.toLowerCase().includes(programSearch.toLowerCase())
+                                        ).map(program => (
+                                            <li
+                                                key={program.id}
+                                                className={`p-3 cursor-pointer hover:bg-slate-50 transition-colors ${selectedProgramId === program.id ? 'bg-blue-50 border-l-4 border-blue-500' : ''}`}
+                                                onClick={() => setSelectedProgramId(program.id)}
+                                            >
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <div className="font-bold text-slate-800 text-sm">{program.id}</div>
+                                                        <div className="text-xs text-slate-600 line-clamp-1">{program.title}</div>
+                                                    </div>
+                                                    {selectedProgramId === program.id && <CheckCircle className="w-4 h-4 text-blue-600" />}
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
+
+                            {/* Warning if already enrolled */}
+                            {selectedProgramId && enrollments.some(e => e.program_id === selectedProgramId) && (
+                                <div className="flex items-center gap-2 p-3 bg-amber-50 text-amber-800 text-xs rounded-lg">
+                                    <AlertCircle className="w-4 h-4" />
+                                    <span>El alumno ya está inscrito en este programa.</span>
+                                </div>
+                            )}
+
+                            <div className="flex justify-end gap-2 mt-6">
+                                <button
+                                    onClick={() => setShowEnrollModal(false)}
+                                    className="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={async () => {
+                                        if (!selectedProgramId) return;
+                                        setEnrolling(true);
+                                        try {
+                                            await StudentService.enrollStudent(id, selectedProgramId);
+                                            await loadData();
+                                            setShowEnrollModal(false);
+                                        } catch (e: any) {
+                                            alert(e.message);
+                                        } finally {
+                                            setEnrolling(false);
+                                        }
+                                    }}
+                                    disabled={!selectedProgramId || enrolling || enrollments.some(e => e.program_id === selectedProgramId)}
+                                    className="px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                                >
+                                    {enrolling ? (
+                                        <>
+                                            <Loader2 className="w-4 h-4 animate-spin" /> Inscribiendo...
+                                        </>
+                                    ) : (
+                                        'Confirmar Inscripción'
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div >
+    );
+}
+
+
+function CopyButton({ link }: { link: string }) {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(link);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <div
+            onClick={handleCopy}
+            className="col-span-1 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded transition-colors flex items-center justify-center gap-1.5 cursor-pointer select-none"
+        >
+            {copied ? (
+                <>
+                    <CheckCircle className="w-3 h-3 text-green-600" /> <span className="text-green-700">Copiado</span>
+                </>
+            ) : (
+                <>
+                    <Copy className="w-3 h-3" /> Copiar Link
+                </>
+            )}
+        </div>
     );
 }

@@ -12,9 +12,12 @@ type Step = 'validating' | 'personal' | 'medical' | 'logistics' | 'documents' | 
 
 export default function StudentOnboardingWizard({ token }: { token: string }) {
     const [step, setStep] = useState<Step>('validating');
+    // Removed duplicate state declaration
+
     const [studentId, setStudentId] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [saving, setSaving] = useState(false);
+    const [loadingData, setLoadingData] = useState(true);
 
     const getErrorMessage = (e: any) => {
         if (e instanceof Error) return e.message;
@@ -31,37 +34,23 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
         phone: '',
         birth_date: '',
         address: '', // New field
-        educational_id: '' // For display
+        educational_id: '', // For display
+        email: '' // New field
     });
 
     const [medical, setMedical] = useState<MedicalProfile>({
         // Removed blood_type
-        allergies: { food: [], medications: [], environmental: [] }, // We will use a simple text field for UI but map to structure if needed, or better yet, simplify structure. 
-        // User requested "Deja Alergias pero en vez de limitarlo a algunos dejarlo abierto". 
-        // I will map text input to a generic 'other' or just use the structure with free text.
-        // Actually, let's keep the arrays but populate from text for simplicity in backend stability, or just rely on 'conditions' field if 'allergies' is too rigid.
-        // Let's use a simpler text state for UI and save it into the arrays or a note. 
-        // Wait, the interface says "Deja Alergias pero en vez de limitarlo a algunos dejarlo abierto".
-        // I'll add a free text field for allergies and save it to `allergies.other` or similar if the type allows, or reuse `conditions`?
-        // Let's modify the MedicalProfile type in my mind: we have `allergies: { food: [], ... }`.
-        // I'll reuse the `conditions` or add a new field if possible, but strictly following the request: "Deja Alergias (...) dejarlo abierto".
-        // I'll just use a text area for "Alergias" and save it into `allergies.medications` as a single string or `conditions`.
-        // Better: let's stick to the current type but maybe just use one array or put it all in 'environmental' if it's open text.
-        // Actually, I'll just put it in `conditions` prefaced with "Alergias: " if I can't change the type easily, OR, just use the `medications` array for text.
-        // Let's look at `MedicalProfile` type again. It has arrays.
-        // I will add a local state for 'allergiesText' and save it.
-
+        allergies: { food: [], medications: [], environmental: [] },
         conditions: '',
         medications: '',
-        insurance: { carrier: '', policy_number: '', emergency_phone: '' }, // We'll only use emergency_phone, others are deprecated in UI but kept in type
-        emergency_contact: { name: '', relationship: '', phone: '', email: '' } // New structure we'll save into `medical_profile` (flexible jsonb)
+        insurance: { carrier: '', policy_number: '', emergency_phone: '' }, // We'll only use emergency_phone
+        emergency_contact: { name: '', relationship: '', phone: '', email: '' }
     });
 
     // Local state for allergies text to avoid complex array UI
     const [allergiesText, setAllergiesText] = useState('');
 
     const [logistics, setLogistics] = useState<LogisticsProfile>({
-        // Removed tshirt_size
         dietary_restrictions: [],
         special_needs: ''
     });
@@ -69,18 +58,67 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
     const [uploadedDocs, setUploadedDocs] = useState<StudentDocument[]>([]);
 
     // Document Metadata State
-    const [docMetadata, setDocMetadata] = useState<{ [key in DocumentType]?: { number: string; expiry: string } }>({});
+    const [docMetadata, setDocMetadata] = useState<{ [key in DocumentType]?: { number: string; expiry: string; expiryBreakdown?: { d: string, m: string, y: string } } }>({});
+
+
+    // Date Breakdown State (for better UX)
+    const [dob, setDob] = useState({ day: '', month: '', year: '' });
 
     useEffect(() => {
         validateToken();
     }, [token]);
+
+    // Update main state when breakdown changes
+    useEffect(() => {
+        if (dob.day && dob.month && dob.year) {
+            // zero pad
+            const d = dob.day.padStart(2, '0');
+            const m = dob.month.padStart(2, '0');
+            setPersonal(p => ({ ...p, birth_date: `${dob.year}-${m}-${d}` }));
+        }
+    }, [dob]);
 
     const validateToken = async () => {
         try {
             const result = await StudentService.validateMagicLink(token);
             if (result.isValid && result.studentId) {
                 setStudentId(result.studentId);
-                loadStudentData(result.studentId);
+
+                // Load data directly from validation result
+                if (result.studentData) {
+                    const data = result.studentData;
+                    setPersonal({
+                        first_name: data.first_name || '',
+                        last_name: data.last_name || '',
+                        phone: data.phone || '',
+                        birth_date: data.logistics_profile?.birth_date || '',
+                        address: data.address || '',
+                        educational_id: data.educational_id || '',
+                        email: data.email || ''
+                    });
+
+                    // Set DOB breakdown
+                    if (data.logistics_profile?.birth_date) {
+                        const [y, m, d] = data.logistics_profile.birth_date.split('-');
+                        setDob({ day: d, month: m, year: y });
+                    }
+
+                    if (data.medical_profile) {
+                        const mp = data.medical_profile;
+                        setMedical(prev => ({
+                            ...prev,
+                            ...mp,
+                            emergency_contact: mp.emergency_contact || { name: '', relationship: '', phone: '', email: '' }
+                        }));
+                        if (mp.allergies?.environmental?.length) setAllergiesText(mp.allergies.environmental.join(', '));
+                        else if (mp.allergies?.food?.length) setAllergiesText(mp.allergies.food.join(', '));
+                    }
+                    if (data.logistics_profile) {
+                        setLogistics(prev => ({ ...prev, ...data.logistics_profile }));
+                    }
+                }
+
+                setLoadingData(false);
                 loadDocs(result.studentId);
                 setStep('personal');
             } else {
@@ -97,37 +135,6 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
             setUploadedDocs(docs);
         } catch (e) {
             console.error('Error loading docs', e);
-        }
-    };
-
-    const loadStudentData = async (id: string) => {
-        try {
-            const { data, error } = await supabase.from('students').select('*').eq('id', id).single();
-            if (data) {
-                setPersonal({
-                    first_name: data.first_name || '',
-                    last_name: data.last_name || '',
-                    phone: data.phone || '',
-                    birth_date: data.logistics_profile?.birth_date || '',
-                    address: data.address || '',
-                    educational_id: data.educational_id || ''
-                });
-                if (data.medical_profile) {
-                    const mp = data.medical_profile;
-                    setMedical(prev => ({
-                        ...prev,
-                        ...mp,
-                        // Ensure emergency_contact exists
-                        emergency_contact: mp.emergency_contact || { name: '', relationship: '', phone: '', email: '' }
-                    }));
-                    // Load allergies text if existing (rudimentary check)
-                    if (mp.allergies?.environmental?.length) setAllergiesText(mp.allergies.environmental.join(', '));
-                    else if (mp.allergies?.food?.length) setAllergiesText(mp.allergies.food.join(', '));
-                }
-                if (data.logistics_profile) setLogistics(prev => ({ ...prev, ...data.logistics_profile }));
-            }
-        } catch (e) {
-            console.error('Error loading student', e);
         }
     };
 
@@ -189,6 +196,12 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
         const file = e.target.files[0];
 
         // Validations
+        if (file.size > 20 * 1024 * 1024) { // 20MB Limit
+            alert('El archivo es demasiado grande. El tamaño máximo es de 20MB.');
+            e.target.value = '';
+            return;
+        }
+
         if (type === 'passport' || type === 'visa_usa') {
             const meta = docMetadata[type];
             if (!meta?.number || !meta?.expiry) {
@@ -207,7 +220,8 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                 setUploadedDocs(prev => [doc, ...prev]);
             }
         } catch (e) {
-            alert('Error subiendo documento. Verifique el tamaño (< 5MB) o intente de nuevo.');
+            console.error(e);
+            alert('Error subiendo documento. Verifique su conexión o intente de nuevo.');
         }
     };
 
@@ -316,12 +330,47 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-semibold text-slate-700 mb-2">Fecha de Nacimiento</label>
-                                    <input
-                                        type="date" className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white"
-                                        value={personal.birth_date}
-                                        onChange={e => setPersonal({ ...personal, birth_date: e.target.value })}
-                                    />
+                                    <div className="grid grid-cols-3 gap-2">
+                                        <input
+                                            type="number" className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-center"
+                                            placeholder="Día" min="1" max="31"
+                                            value={dob.day} onChange={e => setDob({ ...dob, day: e.target.value })}
+                                        />
+                                        <select
+                                            className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-center"
+                                            value={dob.month} onChange={e => setDob({ ...dob, month: e.target.value })}
+                                        >
+                                            <option value="">Mes</option>
+                                            <option value="01">Ene</option>
+                                            <option value="02">Feb</option>
+                                            <option value="03">Mar</option>
+                                            <option value="04">Abr</option>
+                                            <option value="05">May</option>
+                                            <option value="06">Jun</option>
+                                            <option value="07">Jul</option>
+                                            <option value="08">Ago</option>
+                                            <option value="09">Sep</option>
+                                            <option value="10">Oct</option>
+                                            <option value="11">Nov</option>
+                                            <option value="12">Dic</option>
+                                        </select>
+                                        <input
+                                            type="number" className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white text-center"
+                                            placeholder="Año" min="1950" max="2020"
+                                            value={dob.year} onChange={e => setDob({ ...dob, year: e.target.value })}
+                                        />
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+                                <input
+                                    type="email" className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white"
+                                    value={personal.email}
+                                    onChange={e => setPersonal({ ...personal, email: e.target.value })}
+                                    placeholder="correo@ejemplo.com"
+                                />
                             </div>
 
                             <div>
@@ -337,7 +386,7 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                                 <label className="block text-sm font-semibold text-slate-700 mb-2">Dirección Completa</label>
                                 <textarea
                                     className="w-full p-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-white min-h-[80px]"
-                                    placeholder="Calle, Número, Colonia, Ciudad, CP..."
+                                    placeholder="Calle, Número, Colonia, Ciudad, CP (Favor de incluir todos los datos)"
                                     value={personal.address}
                                     onChange={e => setPersonal({ ...personal, address: e.target.value })}
                                 />
@@ -521,9 +570,10 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                                         </div>
 
                                         {/* Extra Info for Passport/Visa */}
-                                        {isDetailsRequired && !uploaded && (
+                                        {/* Extra Info for Passport/Visa - Always visible if required */}
+                                        {isDetailsRequired && (
                                             <div className="bg-white p-3 rounded-lg border border-slate-200 mb-3 space-y-3">
-                                                <div className="grid grid-cols-2 gap-3">
+                                                <div className="flex flex-col gap-3">
                                                     <div>
                                                         <label className="block text-xs font-semibold text-slate-500 mb-1">Número de Documento</label>
                                                         <input
@@ -538,22 +588,190 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                                                         />
                                                     </div>
                                                     <div>
-                                                        <label className="block text-xs font-semibold text-slate-500 mb-1">Vigencia (Vencimiento)</label>
-                                                        <input
-                                                            type="date"
-                                                            className="w-full p-2 border border-slate-200 rounded text-sm"
-                                                            value={docMetadata[docType.id as DocumentType]?.expiry || ''}
-                                                            onChange={e => setDocMetadata({
-                                                                ...docMetadata,
-                                                                [docType.id]: { ...docMetadata[docType.id as DocumentType], expiry: e.target.value, number: docMetadata[docType.id as DocumentType]?.number || '' }
-                                                            })}
-                                                        />
+                                                        <label className="block text-xs font-semibold text-slate-500 mb-1">
+                                                            Vigencia ({docType.id === 'visa_usa' ? 'MM/DD/AAAA - Formato Visa' : 'DD/MM/AAAA'})
+                                                        </label>
+                                                        {docType.id === 'visa_usa' ? (
+                                                            // US Format: MM / DD / YYYY
+                                                            <div className="grid grid-cols-3 gap-1">
+                                                                <select
+                                                                    className="w-full p-2 border border-slate-200 rounded text-sm text-center"
+                                                                    value={docMetadata[docType.id as DocumentType]?.expiryBreakdown?.m || ''}
+                                                                    onChange={e => {
+                                                                        const m = e.target.value;
+                                                                        const d = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.d || '';
+                                                                        const y = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.y || '';
+                                                                        const newExpiry = (y && m && d) ? `${y}-${m}-${d}` : '';
+                                                                        setDocMetadata({
+                                                                            ...docMetadata,
+                                                                            [docType.id]: {
+                                                                                ...docMetadata[docType.id as DocumentType] as any,
+                                                                                expiry: newExpiry,
+                                                                                expiryBreakdown: { m, d, y },
+                                                                                number: docMetadata[docType.id as DocumentType]?.number || ''
+                                                                            }
+                                                                        })
+                                                                    }}
+                                                                >
+                                                                    <option value="">Mes</option>
+                                                                    {Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0')).map(m => (
+                                                                        <option key={m} value={m}>{m}</option>
+                                                                    ))}
+                                                                </select>
+                                                                <input
+                                                                    type="number"
+                                                                    className="w-full p-2 border border-slate-200 rounded text-sm text-center"
+                                                                    placeholder="Día" min="1" max="31"
+                                                                    value={docMetadata[docType.id as DocumentType]?.expiryBreakdown?.d || ''}
+                                                                    onChange={e => {
+                                                                        const d = e.target.value; // Store as typed
+                                                                        const m = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.m || '';
+                                                                        const y = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.y || '';
+                                                                        // Pad only for calculation
+                                                                        const dPad = d.length === 1 ? d.padStart(2, '0') : d;
+                                                                        const newExpiry = (y && m && d.length > 0) ? `${y}-${m}-${dPad}` : '';
+                                                                        setDocMetadata({
+                                                                            ...docMetadata,
+                                                                            [docType.id]: {
+                                                                                ...docMetadata[docType.id as DocumentType] as any,
+                                                                                expiry: newExpiry,
+                                                                                expiryBreakdown: { m, d, y },
+                                                                                number: docMetadata[docType.id as DocumentType]?.number || ''
+                                                                            }
+                                                                        })
+                                                                    }}
+                                                                />
+                                                                <input
+                                                                    type="number"
+                                                                    className="w-full p-2 border border-slate-200 rounded text-sm text-center"
+                                                                    placeholder="Año" min="2025" max="2040"
+                                                                    value={docMetadata[docType.id as DocumentType]?.expiryBreakdown?.y || ''}
+                                                                    onChange={e => {
+                                                                        const y = e.target.value;
+                                                                        const m = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.m || '';
+                                                                        const d = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.d || '';
+                                                                        const newExpiry = (y.length === 4 && m && d) ? `${y}-${m}-${d}` : '';
+                                                                        setDocMetadata({
+                                                                            ...docMetadata,
+                                                                            [docType.id]: {
+                                                                                ...docMetadata[docType.id as DocumentType] as any,
+                                                                                expiry: newExpiry,
+                                                                                expiryBreakdown: { m, d, y },
+                                                                                number: docMetadata[docType.id as DocumentType]?.number || ''
+                                                                            }
+                                                                        })
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        ) : (
+                                                            // Standard Format: DD / MM / YYYY
+                                                            <div className="grid grid-cols-3 gap-1">
+                                                                <input
+                                                                    type="number"
+                                                                    className="w-full p-2 border border-slate-200 rounded text-sm text-center"
+                                                                    placeholder="Día" min="1" max="31"
+                                                                    value={docMetadata[docType.id as DocumentType]?.expiryBreakdown?.d || ''}
+                                                                    onChange={e => {
+                                                                        const d = e.target.value; // Store as typed
+                                                                        const m = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.m || '';
+                                                                        const y = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.y || '';
+                                                                        // Pad only for calculation
+                                                                        const dPad = d.length === 1 ? d.padStart(2, '0') : d;
+                                                                        const newExpiry = (y && m && d.length > 0) ? `${y}-${m}-${dPad}` : '';
+                                                                        setDocMetadata({
+                                                                            ...docMetadata,
+                                                                            [docType.id]: {
+                                                                                ...docMetadata[docType.id as DocumentType] as any,
+                                                                                expiry: newExpiry,
+                                                                                expiryBreakdown: { m, d, y },
+                                                                                number: docMetadata[docType.id as DocumentType]?.number || ''
+                                                                            }
+                                                                        })
+                                                                    }}
+                                                                />
+                                                                <select
+                                                                    className="w-full p-2 border border-slate-200 rounded text-sm text-center"
+                                                                    value={docMetadata[docType.id as DocumentType]?.expiryBreakdown?.m || ''}
+                                                                    onChange={e => {
+                                                                        const m = e.target.value;
+                                                                        const d = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.d || '';
+                                                                        const y = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.y || '';
+                                                                        const newExpiry = (y && m && d) ? `${y}-${m}-${d}` : '';
+                                                                        setDocMetadata({
+                                                                            ...docMetadata,
+                                                                            [docType.id]: {
+                                                                                ...docMetadata[docType.id as DocumentType] as any,
+                                                                                expiry: newExpiry,
+                                                                                expiryBreakdown: { m, d, y },
+                                                                                number: docMetadata[docType.id as DocumentType]?.number || ''
+                                                                            }
+                                                                        })
+                                                                    }}
+                                                                >
+                                                                    <option value="">Mes</option>
+                                                                    {Array.from({ length: 12 }, (_, i) => (i + 1).toString().padStart(2, '0')).map(m => (
+                                                                        <option key={m} value={m}>{m}</option>
+                                                                    ))}
+                                                                </select>
+                                                                <input
+                                                                    type="number"
+                                                                    className="w-full p-2 border border-slate-200 rounded text-sm text-center"
+                                                                    placeholder="Año" min="2025" max="2040"
+                                                                    value={docMetadata[docType.id as DocumentType]?.expiryBreakdown?.y || ''}
+                                                                    onChange={e => {
+                                                                        const y = e.target.value;
+                                                                        const m = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.m || '';
+                                                                        const d = docMetadata[docType.id as DocumentType]?.expiryBreakdown?.d || '';
+                                                                        const newExpiry = (y.length === 4 && m && d) ? `${y}-${m}-${d}` : '';
+                                                                        setDocMetadata({
+                                                                            ...docMetadata,
+                                                                            [docType.id]: {
+                                                                                ...docMetadata[docType.id as DocumentType] as any,
+                                                                                expiry: newExpiry,
+                                                                                expiryBreakdown: { m, d, y },
+                                                                                number: docMetadata[docType.id as DocumentType]?.number || ''
+                                                                            }
+                                                                        })
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <a href="#" className="flex items-center gap-1 text-xs text-indigo-600 hover:underline">
                                                     <Info className="w-3 h-3" />
                                                     ¿Cómo ubico estos datos? (Instructivo)
                                                 </a>
+                                            </div>
+                                        )}
+
+
+
+                                        {uploaded && isDetailsRequired && (
+                                            <div className="mb-3">
+                                                <button
+                                                    type="button"
+                                                    onClick={async () => {
+                                                        try {
+                                                            const meta = docMetadata[docType.id as DocumentType];
+                                                            if (!meta?.number || !meta?.expiry) {
+                                                                alert('Por favor completa los datos antes de guardar.');
+                                                                return;
+                                                            }
+                                                            await StudentService.updateDocumentMetadataViaToken(token, docType.id as DocumentType, {
+                                                                document_number: meta.number,
+                                                                expiration_date: meta.expiry
+                                                            });
+                                                            alert('Datos actualizados correctamente.');
+                                                        } catch (e) {
+                                                            console.error(e);
+                                                            alert('Error actualizando datos.');
+                                                        }
+                                                    }}
+                                                    className="btn border border-slate-200 text-slate-600 hover:bg-slate-50 w-full text-sm py-2"
+                                                >
+                                                    Guardar Cambios de {docType.label}
+                                                </button>
                                             </div>
                                         )}
 
@@ -564,8 +782,20 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                                         ) : (
                                             <div>
                                                 {uploaded ? (
-                                                    <div className="text-xs text-slate-500">
-                                                        Documento subido el {new Date(uploaded.created_at).toLocaleDateString()}
+                                                    <div className="flex items-center justify-between p-2 bg-green-50 rounded-lg border border-green-100">
+                                                        <div className="text-xs text-green-700">
+                                                            Subido el {new Date(uploaded.created_at).toLocaleDateString()}
+                                                        </div>
+                                                        <label className="text-xs text-indigo-600 font-medium cursor-pointer hover:underline flex items-center gap-1">
+                                                            <Upload className="w-3 h-3" />
+                                                            Cambiar
+                                                            <input
+                                                                type="file"
+                                                                className="hidden"
+                                                                accept=".jpg,.jpeg,.png,.pdf"
+                                                                onChange={(e) => handleFileUpload(e, docType.id as DocumentType)}
+                                                            />
+                                                        </label>
                                                     </div>
                                                 ) : (
                                                     <label className="btn bg-white border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm py-2 px-3 flex items-center justify-center gap-2 cursor-pointer shadow-sm w-full">
@@ -592,6 +822,6 @@ export default function StudentOnboardingWizard({ token }: { token: string }) {
                     </div>
                 )}
             </div>
-        </FadeIn>
+        </FadeIn >
     );
 }

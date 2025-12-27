@@ -10,6 +10,7 @@ import { StudentDocument } from '@/types/student';
 export default function StudentList() {
     const [students, setStudents] = useState<Student[]>([]);
     const [documents, setDocuments] = useState<Record<string, StudentDocument[]>>({});
+    const [enrollments, setEnrollments] = useState<Record<string, any[]>>({});
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -30,6 +31,15 @@ export default function StudentList() {
                 supabase.from('student_documents').select('*')
             ]);
 
+            // Fetch enrollments safely
+            let enrollmentsList: any[] = [];
+            try {
+                const { data } = await supabase.from('student_enrollments').select('*');
+                if (data) enrollmentsList = data;
+            } catch (e) {
+                console.warn('Could not fetch enrollments', e);
+            }
+
             setStudents(studentsData);
 
             // Group docs by student
@@ -42,6 +52,15 @@ export default function StudentList() {
                 });
             }
             setDocuments(docsMap);
+
+            // Group enrollments by student
+            const enrMap: Record<string, any[]> = {};
+            enrollmentsList.forEach((enr: any) => {
+                if (!enrMap[enr.student_id]) enrMap[enr.student_id] = [];
+                enrMap[enr.student_id].push(enr);
+            });
+            setEnrollments(enrMap);
+
         } catch (error) {
             console.error('Failed to load students', error);
         } finally {
@@ -100,7 +119,7 @@ export default function StudentList() {
                     <thead className="bg-slate-50 border-b border-slate-200">
                         <tr>
                             <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Student</th>
-                            <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">ID</th>
+                            <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">ID / Programas</th>
                             {/* Removed Salud */}
                             <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-center">Docs</th>
                             <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Total Charges</th>
@@ -113,6 +132,8 @@ export default function StudentList() {
                         {filteredStudents.length > 0 ? filteredStudents.map((student) => {
                             const balance = student.balance || 0;
                             const hasDebt = balance > 0;
+                            const studentEnrollments = enrollments[student.id] || [];
+
                             return (
                                 <tr key={student.id} className="hover:bg-slate-50 transition-colors group">
                                     <td className="px-6 py-4">
@@ -126,7 +147,18 @@ export default function StudentList() {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-sm text-slate-500 font-mono">{student.human_id}</td>
+                                    <td className="px-6 py-4">
+                                        <div className="text-sm text-slate-500 font-mono mb-1">{student.human_id}</div>
+                                        <div className="flex flex-wrap gap-1">
+                                            {studentEnrollments.length > 0 ? studentEnrollments.map((enr, i) => (
+                                                <span key={i} className="text-[10px] bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded border border-blue-100 whitespace-nowrap">
+                                                    {enr.program_id}
+                                                </span>
+                                            )) : (
+                                                <span className="text-[10px] text-slate-400 italic">No enrolled</span>
+                                            )}
+                                        </div>
+                                    </td>
 
                                     {/* Docs Indicator */}
                                     <td className="px-6 py-4 text-center">
@@ -199,7 +231,7 @@ export default function StudentList() {
                             );
                         }) : (
                             <tr>
-                                <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
+                                <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
                                     No students found.
                                 </td>
                             </tr>
@@ -237,9 +269,8 @@ export default function StudentList() {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Matrícula / ID Educativo</label>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Matrícula / ID Educativo (Opcional)</label>
                                 <input
-                                    required
                                     type="text"
                                     placeholder='Ej. A01234567'
                                     className="w-full p-2 border border-slate-300 rounded-lg"
@@ -248,9 +279,8 @@ export default function StudentList() {
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Email (Opcional)</label>
                                 <input
-                                    required
                                     type="email"
                                     className="w-full p-2 border border-slate-300 rounded-lg"
                                     value={newStudent.email}

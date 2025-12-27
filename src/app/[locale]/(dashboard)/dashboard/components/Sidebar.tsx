@@ -68,7 +68,7 @@ export default function Sidebar() {
                         </Link> */}
                         <Link href="/dashboard/admin/students" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/students') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <Users className="w-5 h-5" />
-                            Directorio de Alumnos
+                            Directorio de Alumnos (Clientes)
                         </Link>
                         <Link href="/dashboard/admin/finance" className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${isActive('/finance') ? 'bg-primary/5 text-primary font-bold' : 'text-slate-600 hover:bg-slate-50'}`}>
                             <CreditCard className="w-5 h-5" />

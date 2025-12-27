@@ -28,7 +28,11 @@ export const StudentService = {
         // Use existing validateMagicLink to get ID (it's public/service role safe?)
         // validateMagicLink uses RPC `validate_magic_link` which returns UUID.
 
-        const studentId = await StudentService.validateMagicLink(token);
+        const { studentId } = await StudentService.validateMagicLink(token);
+
+        if (!studentId) {
+            throw new Error("Invalid token or student not found");
+        }
 
         const fileExt = file.name.split('.').pop();
         const fileName = `${studentId}/${type}_${Date.now()}.${fileExt}`;
@@ -225,13 +229,95 @@ export const StudentService = {
         return token;
     },
 
-    validateMagicLink: async (token: string): Promise<{ isValid: boolean, studentId?: string }> => {
+    validateMagicLink: async (token: string): Promise<{ isValid: boolean, studentId?: string, studentData?: any }> => {
         const { data, error } = await supabase.rpc('validate_magic_link', { token_input: token });
 
-        if (error || !data || !data.valid) {
+        // RPC returns a single row if successful, looking like { valid: true, student_id: ..., first_name: ... }
+        // The return type of the function is TABLE(...), so rpc returns data as array of rows.
+        // Wait, supabase client handles single vs array depending on definition?
+        // Usually rpc calls returning TABLE return an array.
+
+        if (error) {
+            console.error('Magic Link Validation Error', error);
             return { isValid: false };
         }
 
-        return { isValid: true, studentId: data.student_id };
+        const result = Array.isArray(data) ? data[0] : data;
+
+        if (!result || !result.valid) {
+            return { isValid: false };
+        }
+
+        return {
+            isValid: true,
+            studentId: result.student_id,
+            studentData: result // Return full object
+        };
+    },
+
+    updateDocumentMetadataViaToken: async (token: string, type: DocumentType, metadata: any): Promise<void> => {
+        const { data, error } = await supabase.rpc('update_document_metadata_via_token', {
+            p_token: token,
+            p_document_type: type,
+            p_metadata: metadata
+        });
+
+        if (error) {
+            console.error('Error updating metadata:', JSON.stringify(error, null, 2));
+            throw error;
+        }
+
+        if (data && !data.success) {
+            throw new Error(data.error || 'Failed to update metadata');
+        }
+    },
+
+    // === Enrollments ===
+    getStudentEnrollments: async (studentId: string): Promise<any[]> => {
+        const { data, error } = await supabase
+            .from('student_enrollments')
+            .select('*')
+            .eq('student_id', studentId);
+
+        if (error) throw error;
+        return data || [];
+    },
+
+    enrollStudent: async (studentId: string, programId: string): Promise<void> => {
+        const { error } = await supabase
+            .from('student_enrollments')
+            .insert({
+                student_id: studentId,
+                program_id: programId,
+                status: 'enrolled'
+            });
+
+        if (error) {
+            // Provide friendly error if duplicate
+            if (error.code === '23505') { // Unique violation
+                throw new Error('Student is already enrolled in this program');
+            }
+            throw error;
+        }
+    },
+
+    getProgramEnrollments: async (programId: string): Promise<any[]> => {
+        const { data, error } = await supabase
+            .from('student_enrollments')
+            .select('*, students:student_id(first_name, last_name, email, phone, human_id)')
+            .eq('program_id', programId);
+
+        if (error) throw error;
+        return data || [];
+    },
+
+    unenrollStudent: async (studentId: string, programId: string): Promise<void> => {
+        const { error } = await supabase
+            .from('student_enrollments')
+            .delete()
+            .match({ student_id: studentId, program_id: programId });
+
+        if (error) throw error;
     }
 };
+

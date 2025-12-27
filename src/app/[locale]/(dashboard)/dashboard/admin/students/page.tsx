@@ -11,7 +11,7 @@ export default function AdminStudentsPage() {
         <FadeIn>
             <div className="mb-8 flex justify-between items-start">
                 <div>
-                    <h1 className="text-3xl font-serif font-bold text-slate-900">Directorio de Alumnos</h1>
+                    <h1 className="text-3xl font-serif font-bold text-slate-900">Directorio de Alumnos (Clientes)</h1>
                     <p className="text-slate-500 mt-2">Gestión general de alumnos y estados de cuenta.</p>
                 </div>
                 <Link

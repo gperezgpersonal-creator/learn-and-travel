@@ -13,33 +13,42 @@ export default function HomePage() {
     return (
         <main>
             {/* Hero Section */}
-            <section className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-slate-900">
+            <section className="relative h-[90vh] flex items-center overflow-hidden bg-slate-900">
                 <div className="absolute inset-0 z-0">
                     <Image
-                        src="/images/hero-bg.jpg"
+                        src="/images/home-hero-new.png"
                         alt="Students traveling"
                         fill
-                        className="object-cover opacity-60"
+                        className="object-cover opacity-90"
                         priority
                     />
-                    <div className="absolute inset-0 bg-black/40"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60"></div>
                 </div>
-                <div className="container-custom relative z-10 text-center text-white">
-                    <FadeIn direction="up">
-                        <h1 className="text-3xl md:text-7xl font-serif font-bold mb-6 leading-tight text-white">
-                            {t('heroTitle')}
-                        </h1>
-                    </FadeIn>
-                    <FadeIn direction="up" delay={0.2}>
-                        <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-light text-slate-100">
-                            {t('heroSubtitle')}
-                        </p>
-                    </FadeIn>
-                    <FadeIn direction="up" delay={0.4}>
-                        <Link href="/contact" className="btn btn-primary text-lg px-8 py-4 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
-                            Conoce nuestros programas
-                        </Link>
-                    </FadeIn>
+                <div className="container-custom relative z-10 w-full">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+                        {/* Left Side: Title */}
+                        <div className="w-full md:w-5/12 text-left">
+                            <FadeIn direction="right">
+                                <h1 className="text-4xl md:text-7xl font-serif font-bold leading-tight text-white drop-shadow-xl">
+                                    {t('heroTitle')}
+                                </h1>
+                            </FadeIn>
+                        </div>
+
+                        {/* Right Side: Subtitle & CTA */}
+                        <div className="w-full md:w-5/12 text-left md:text-right flex flex-col items-start md:items-end">
+                            <FadeIn direction="left" delay={0.2}>
+                                <p className="text-xl md:text-2xl mb-8 font-light text-slate-100 drop-shadow-lg">
+                                    {t('heroSubtitle')}
+                                </p>
+                            </FadeIn>
+                            <FadeIn direction="left" delay={0.4}>
+                                <Link href="/contact" className="btn btn-primary text-lg px-8 py-4 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300">
+                                    Conoce nuestros programas
+                                </Link>
+                            </FadeIn>
+                        </div>
+                    </div>
                 </div>
             </section>
 

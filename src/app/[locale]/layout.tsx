@@ -10,6 +10,27 @@ import { Inter, Playfair_Display } from 'next/font/google';
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
+export const metadata = {
+    metadataBase: new URL('https://learn-and-travel.com'),
+    title: "Learn and Travel | Experiencias Educativas Internacionales",
+    description: "Experiencias académicas internacionales, conecta con profesionales, aprende nuevos idiomas, y más. Experiencias que transforman vidas.",
+    openGraph: {
+        title: "Learn and Travel | Experiencias Educativas Internacionales",
+        description: "Experiencias académicas internacionales, conecta con profesionales, aprende nuevos idiomas, y más. Experiencias que transforman vidas.",
+        url: 'https://learn-and-travel.com',
+        siteName: 'Learn and Travel',
+        images: [
+            {
+                url: '/images/social-share.png', // Main social image
+                width: 1200,
+                height: 630,
+            },
+        ],
+        locale: 'es_MX',
+        type: 'website',
+    },
+};
+
 export default async function LocaleLayout({
     children,
     params,
